@@ -65,5 +65,33 @@ object Forms {
       "admin" -> boolean
     )
   }
+
+  val newUserForm = Form {
+    tuple(
+      "user" -> tuple (
+        "username" -> nonEmptyText.verifying("Username is allready taken", value => models.User.findBy("username" -> value).isEmpty),
+        "password" -> nonEmptyText
+      ),
+      "bday" -> date,
+      "dday" -> date,
+      "about" -> text,
+      "anonym" -> boolean,
+      "admin" -> boolean
+    )
+  }
+
+  val adminEditUserForm = Form {
+    tuple(
+      "user" -> tuple (
+        "username" -> text,
+        "password" -> nonEmptyText
+      ),
+      "bday" -> date,
+      "dday" -> date,
+      "about" -> text,
+      "anonym" -> boolean,
+      "admin" -> boolean
+    )
+  }
 }
 

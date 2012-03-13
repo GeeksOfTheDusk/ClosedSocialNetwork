@@ -1,0 +1,11 @@
+@(users: List[models.User])(implicit session: Session, flash: Flash)
+@import helper._
+@main(privateMenue(session)){
+    <h3>This is the Admin area.</h3>
+    @for(user <- users) {
+        @user.id @user.username <a href="/admin/users/@user.id">Edit</a>
+        @form(routes.Admin.delete(user.id)){<input type="submit" value="Delete">}
+        <br/>
+    }
+    <a href="/admin/users/new">Create new user</a>
+}

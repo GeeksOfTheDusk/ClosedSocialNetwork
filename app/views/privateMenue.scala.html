@@ -4,3 +4,7 @@
 <a href="/users/me/messages">Private messages</a>
 <a href="/users">Userlist</a>
 <a href="/logout">Logout</a>
+
+@if(User.findBy("username" -> session.get("user").get).head.isAdmin) {
+    <a href="/admin">Admin</a>
+}

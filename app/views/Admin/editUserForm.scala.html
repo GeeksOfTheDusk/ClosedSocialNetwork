@@ -1,0 +1,38 @@
+@(userform: Form[((String, String), java.util.Date, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
+@import helper._
+@main(privateMenue(session)){
+    @form(routes.Admin.editUser(user.id)) {
+        Edit @user.username
+        @inputPassword(userform("user.password"), '_label -> "Password")
+
+        @inputDate(
+            userform("bday"),
+            '_label -> "Date of Birth"
+        )
+
+        @inputDate(
+            userform("dday"),
+            '_label -> "Wished date of death"
+        )
+
+        @textarea(
+            userform("about"),
+            '_label -> "About you",
+            'rows -> 15,
+            'cols -> 100
+        )
+
+        @checkbox(
+            userform("anonym"),
+            '_label -> "Anonym?",
+            '_help -> "Wanna be anonym?"
+        )
+
+        @checkbox(
+            userform("admin"),
+            '_label -> "Is Admin?",
+            '_help -> "Wanna be admin?"
+        )
+        <input type="submit" value="Save"/>
+    }
+}

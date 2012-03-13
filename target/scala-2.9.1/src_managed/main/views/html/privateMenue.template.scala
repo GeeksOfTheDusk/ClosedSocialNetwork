@@ -24,7 +24,11 @@ Seq(format.raw/*1.20*/("""
 <a href="/users/me">My Profile</a>
 <a href="/users/me/messages">Private messages</a>
 <a href="/users">Userlist</a>
-<a href="/logout">Logout</a>"""))}
+<a href="/logout">Logout</a>
+
+"""),_display_(Seq(/*8.2*/if(User.findBy("username" -> session.get("user").get).head.isAdmin)/*8.69*/ {_display_(Seq(format.raw/*8.71*/("""
+    <a href="/admin">Admin</a>
+""")))})))}
     }
     
     def render(session:Session) = apply(session)
@@ -36,11 +40,11 @@ Seq(format.raw/*1.20*/("""
 }
                 /*
                     -- GENERATED --
-                    DATE: Mon Feb 27 15:50:58 CET 2012
+                    DATE: Tue Mar 13 17:44:46 CET 2012
                     SOURCE: /Users/waldemar/webapps/NSA/app/views/privateMenue.scala.html
-                    HASH: c4d2470863b74d50a469df656b99eff77bf7d201
-                    MATRIX: 513->1|603->19
-                    LINES: 19->1|22->1
+                    HASH: 51084be56cc3ada6acdc42ee1fa6e0c5760e4a7c
+                    MATRIX: 513->1|603->19|800->187|875->254|909->256
+                    LINES: 19->1|22->1|29->8|29->8|29->8
                     -- GENERATED --
                 */
             

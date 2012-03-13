@@ -1,0 +1,68 @@
+package controllers
+
+import play.api.mvc._
+import models._
+
+object Admin extends Controller with Secure {
+  import views._
+  def index = Admin { implicit request =>
+    val users = User.all
+    Ok(html.Admin.index(users))
+  }
+
+  def delete(id: Long) = Admin { implicit request =>
+    User.delete(id)
+    Redirect(routes.Admin.index())
+  }
+  
+  def newUser = Admin { implicit request =>
+    Ok(html.Admin.newUserForm(Forms.newUserForm))
+  }
+  
+  def createUser = Admin { implicit request =>
+    Forms.newUserForm.bindFromRequest.fold (
+      formsWithErrors => BadRequest(html.Admin.newUserForm(formsWithErrors)),
+      value => {
+        val ((username, pw), bday, dday, about, anonym, admin) = value
+        val user = new User(username = username, hashedPW = pw, dateOfBirth = bday, dateOfDeath = dday,
+          description = about, anonym = anonym, isAdmin = admin)
+        User.create(user)
+        Redirect(routes.Admin.index())
+      }
+    )
+  }
+  
+  def editUserForm(id: Long) = Admin {implicit request =>
+    val user = User.findBy("id" -> id.toString).head
+    if(user == null) {
+      BadRequest(html.Admin.index(User.all))
+    } else {
+      val toFill = ((user.username, user.hashedPW), user.dateOfBirth,
+        user.dateOfDeath, user.description, user.anonym, user.isAdmin)
+      
+      Ok(html.Admin.editUserForm(Forms.adminEditUserForm.fill(toFill), user))
+    }
+  }
+
+  def editUser(id: Long) = Admin { implicit request =>
+    val user = User.findBy("id" -> id.toString).head
+    if(user == null) {
+      Redirect(routes.Admin.index())
+    } else {
+      Forms.adminEditUserForm.bindFromRequest.fold (
+        formsWithErrors => BadRequest(html.Admin.editUserForm(formsWithErrors, user)),
+        value => {
+          val ((username, pw), bday, dday, about, anonym, admin) = value
+          val user = User.connect(username, pw).head
+          user.dateOfBirth = bday
+          user.dateOfDeath = dday
+          user.description = about
+          user.anonym = anonym
+          user.isAdmin = admin
+          User.update(user)
+          Redirect(routes.Admin.index())
+        }
+      )
+    }
+  }
+}

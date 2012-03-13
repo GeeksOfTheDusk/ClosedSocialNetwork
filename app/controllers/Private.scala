@@ -4,14 +4,8 @@ import play.api.mvc._
 import models._
 import java.util.Date
 
-object Private extends Controller {
-  def Authenticated(f: AuthenticatedRequest => Result) = {
-    Action { request =>
-      request.session.get("user").flatMap(u => Some(User.findBy("username" -> u).head)).map { user =>
-        f(AuthenticatedRequest(user, request))
-      }.getOrElse(Redirect(routes.Application.index()))
-    }
-  }
+object Private extends Controller with Secure {
+
   import views._
 
   def index = Authenticated { implicit request =>

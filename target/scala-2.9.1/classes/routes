@@ -4,6 +4,9 @@
 
 # Home page
 GET     /                                       controllers.Private.index
+GET     /admin                                  controllers.Admin.index
+GET     /admin/users/new                        controllers.Admin.newUser
+GET     /admin/users/:id                        controllers.Admin.editUserForm(id: Long)
 GET     /public                                 controllers.Application.index
 GET     /login                                  controllers.Application.login
 GET     /logout                                 controllers.Private.logout
@@ -16,6 +19,11 @@ GET     /users/me/messages                      controllers.Private.listPm
 GET     /users/me/edit                          controllers.Private.editUser
 GET     /users/me/messages/reply/:id            controllers.Private.reply(id: Long)
 GET     /users/me/messages/:id                  controllers.Private.showPm(id: Long)
+
+# Post requests
+POST    /admin/users/delete/:id                 controllers.Admin.delete(id: Long)
+POST    /admin/users/create                     controllers.Admin.createUser
+POST    /admin/users/edit/:id                   controllers.Admin.editUser(id: Long)
 POST    /auth                                   controllers.Application.auth
 POST    /newUser                                controllers.Application.newUser
 POST    /sendPm                                 controllers.Private.writeMessage(to: Long)
