@@ -1,0 +1,24 @@
+# Default (en)
+#
+login=Login
+userlist=Userlist
+signup=Sign Up
+username=Username
+password=Password
+repeat_password=Repeat Password
+signin=Sign In
+submit=Submit
+writepm=Write a private message
+showpms=Show private messages
+gender=Gender
+male=male
+female=female
+queer=queer
+birthday=Birthday
+age=Age
+anonym=Anonym
+msg_from_at=From %s at %s
+showprofile=Show profile
+logout=Logout
+key=Registration key
+createkey=Create new registration key

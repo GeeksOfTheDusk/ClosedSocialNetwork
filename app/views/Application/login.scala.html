@@ -1,0 +1,18 @@
+@(loginForm: Form[(String, String)])(implicit flash: Flash)
+@import helper._
+
+@main() {
+    @form(routes.Application.auth) {
+        @inputText(
+            loginForm("username"),
+            '_label -> "Username: ",
+            '_help -> "Choose a valid username"
+        )
+        @inputPassword(
+            loginForm("password"),
+            '_label -> "Password: ",
+            '_error -> loginForm.globalError
+        )
+        <input type="submit" value="Login"/>
+    }
+}

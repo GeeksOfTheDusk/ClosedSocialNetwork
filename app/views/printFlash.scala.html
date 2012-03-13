@@ -1,0 +1,6 @@
+@(flash: Flash)
+
+@for(m <- flash.data) {
+    <div>@m._2</div>
+    <div>@flash.get("pmcount")</div>
+}

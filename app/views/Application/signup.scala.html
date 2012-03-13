@@ -1,0 +1,31 @@
+@(signUpForm: Form[(String, (String, String), String)])(implicit flash: Flash)
+@import helper._
+
+@main() {
+    @form(routes.Application.newUser) {
+        @inputText(
+            signUpForm("username"),
+            '_label -> "Username: ",
+            '_help -> "Choose a valid username."
+        )
+
+        @inputPassword(
+            signUpForm("password.main"),
+            '_label -> "Password: "
+        )
+
+        @inputPassword(
+            signUpForm("password.confirm"),
+            '_label -> "Repeat password",
+            '_help -> "Please repeat your password again.",
+            '_error -> signUpForm.error("password")
+        )
+
+        @inputText(
+            signUpForm("registrationkey"),
+            '_label -> "Registration key: ",
+            '_error -> signUpForm.error("registrationkey")
+        )
+        <input type="submit" value="Login"/>
+    }
+}

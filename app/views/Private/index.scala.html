@@ -1,0 +1,6 @@
+@(pms: Long)(implicit request: play.api.mvc.Request[AnyContent], flash: Flash)
+@import play.api.Play.current
+@main(privateMenue(request.session)) {
+    @if(pms > 0){You have @pms unread messages.}
+    <h3>Hello @request.session.get("user").get</h3>
+}

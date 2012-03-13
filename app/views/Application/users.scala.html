@@ -1,0 +1,10 @@
+@(users: List[models.User])(implicit session: Session, flash: Flash)
+
+@menue() = @{
+    session.get("user").map(u => privateMenue(session)).getOrElse(publicMenue())
+}
+@main(menue()) {
+    @for(user <- users) {
+        <div><a href="/users/@user.username">@user.username</a></div>
+    }
+}

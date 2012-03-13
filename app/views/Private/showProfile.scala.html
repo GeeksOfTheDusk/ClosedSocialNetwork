@@ -1,0 +1,44 @@
+@(user: models.User, keys: List[models.InvitationKey])(implicit session:Session, flash: Flash)
+@main(privateMenue(session)) {
+    <div>
+        <h3>Profile of @user.username</h3>
+    </div>
+    <div>
+        Gender: @{user.sex match {
+        case "q" => "Queer"
+        case "m" => "Male"
+        case "f" => "Female"
+        case "n" => "No gender specified"
+        }}
+    </div>
+
+    <div>
+        Born on @user.dateOfBirth
+    </div>
+
+    <div>
+        Wishes to die on @user.dateOfDeath
+    </div>
+
+    <div>
+        About: @user.description
+    </div>
+
+    <div>
+        Registered on @user.registrationDate
+    </div>
+
+    @if(user.invitedBy > 0) {
+    <div>
+        Infited by <a href="/users/@models.User.findBy("id" -> user.invitedBy.toString).head.username">
+        @models.User.findBy("id" -> user.invitedBy.toString).head.username</a>
+    </div>
+    }
+    @for(key <- keys) {
+        <p>@key.key_string</p>
+    }
+    @if(keys.length < 3) {
+        @helper.form(routes.Private.createKey()){<input type="submit" value="Generate key">}
+    }
+    <a href="/users/me/edit">Edit profile</a>
+}
