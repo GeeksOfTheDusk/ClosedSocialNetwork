@@ -1,13 +1,13 @@
-Suicide Apartment
+Neo Suicide Apartment
 =================
 
 ## Description
-Suicide Apartment is a portal to find people which want to commit suicide with you.
+Neo Suicide Apartment is a portal to find people which want to commit suicide with you.
 
 Everyone can fork this project and build his own community.
 
 ## Dependencies
-Latest [Play Framework](https://github.com/playframework/play) release and the [Scala plugin](https://github.com/playframework/play-scala)
+Latest [Play Framework 2.0](https://github.com/playframework/play) release.
 
 ## Participate
 
