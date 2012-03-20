@@ -2,6 +2,7 @@ package controllers
 
 import play.api.mvc._
 import models._
+import java.util.Date
 
 object Admin extends Controller with Secure {
   import views._
@@ -37,7 +38,7 @@ object Admin extends Controller with Secure {
     if(user == null) {
       BadRequest(html.Admin.index(User.all))
     } else {
-      val toFill = ((user.username, user.hashedPW), user.dateOfBirth,
+      val toFill = (user.dateOfBirth,
         user.dateOfDeath, user.description, user.anonym, user.isAdmin)
       
       Ok(html.Admin.editUserForm(Forms.adminEditUserForm.fill(toFill), user))
@@ -52,8 +53,7 @@ object Admin extends Controller with Secure {
       Forms.adminEditUserForm.bindFromRequest.fold (
         formsWithErrors => BadRequest(html.Admin.editUserForm(formsWithErrors, user)),
         value => {
-          val ((username, pw), bday, dday, about, anonym, admin) = value
-          val user = User.connect(username, pw).head
+          val (bday, dday, about, anonym, admin) = value
           user.dateOfBirth = bday
           user.dateOfDeath = dday
           user.description = about
@@ -64,5 +64,25 @@ object Admin extends Controller with Secure {
         }
       )
     }
+  }
+  
+  def broadcastForm = Admin { implicit request =>
+    Ok(html.Admin.broadcastForm(Forms.messageForm))
+  }
+
+  def broadcast = Admin { implicit request =>
+    Forms.messageForm.bindFromRequest.fold (
+      errors => BadRequest(html.Admin.broadcastForm(errors)),
+      value => { val (title, content) = value
+        for(user <- User.all) {
+          val pm = new PrivateMessage(title = Some("[Admin] " + title),
+                                      content = content,
+                                      authorID = 0,
+                                      receiverID = user.id)
+          PrivateMessage.create(pm)
+        }
+        Redirect(routes.Admin.index())
+      }
+    )
   }
 }

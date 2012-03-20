@@ -82,10 +82,6 @@ object Forms {
 
   val adminEditUserForm = Form {
     tuple(
-      "user" -> tuple (
-        "username" -> text,
-        "password" -> nonEmptyText
-      ),
       "bday" -> date,
       "dday" -> date,
       "about" -> text,

@@ -1,0 +1,20 @@
+@(messageForm: Form[(String, String)])(implicit flash: Flash, session: Session)
+@import helper._
+@main(privateMenue(session)) {
+    @form(routes.Admin.broadcast) {
+        @inputText(
+            messageForm("title"),
+            '_label -> "Title",
+            '_help -> "May be empty."
+        )
+        @textarea(
+            messageForm("content"),
+            'rows -> 20,
+            'cols -> 100,
+            '_label -> "Message",
+            '_error -> messageForm.error("content")
+        )
+
+        <input type="submit" value="Send">
+    }
+}

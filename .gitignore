@@ -10,3 +10,5 @@ modules/
 *.iml
 *.ipr
 *.iws
+target/
+project/

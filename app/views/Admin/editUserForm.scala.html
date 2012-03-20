@@ -1,9 +1,8 @@
-@(userform: Form[((String, String), java.util.Date, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
+@(userform: Form[(java.util.Date, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
 @import helper._
 @main(privateMenue(session)){
     @form(routes.Admin.editUser(user.id)) {
         Edit @user.username
-        @inputPassword(userform("user.password"), '_label -> "Password")
 
         @inputDate(
             userform("bday"),

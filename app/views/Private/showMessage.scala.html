@@ -1,8 +1,14 @@
 @(message: models.PrivateMessage)(implicit session:Session, flash: Flash)
 @main(privateMenue(session)){
-    @message.title from @(models.User.findBy("id" -> message.authorID.toString).head.username) on @message.writtenAt
+    @if(message.authorID > 0) {
+        @message.title from @(models.User.findBy("id" -> message.authorID.toString).head.username) on @message.writtenAt
+    } else {
+        @message.title
+    }
     <div>
         @message.content
     </div>
-    <a href="/users/me/messages/reply/@message.id">Reply</a>
+    @if(message.authorID > 0) {
+        <a href="/users/me/messages/reply/@message.id">Reply</a>
+    }
 }

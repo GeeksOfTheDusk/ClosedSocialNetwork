@@ -12,7 +12,7 @@ case class PrivateMessage(id: Long = 0,
 
 object PrivateMessage {
   
-  def apply(title: String, content: String, from: Int,  to: Int) {
+  def apply(title: String, content: String, from: Long,  to: Long) {
     PrivateMessage(0, from, to, Some(title), content)
   }
   
