@@ -17,7 +17,17 @@ case class User(var id: Long = 0,
                 var invitedBy: Long = 0,
                 var registrationDate: Date = new Date,
                 var lastLogin: Date = new Date,
-                var isAdmin: Boolean = false)
+                var isAdmin: Boolean = false) {
+  def getAllMarked = {
+    Relationship.findAllFrom(id) map {_.to_id}
+  }
+
+  def getAllMarking = {
+    Relationship.findAllTo(id) map {_.from_id}
+  }
+
+  def isMarking(id: Long) = getAllMarked.contains(id)
+}
 
 object User {
   def user = {

@@ -94,6 +94,45 @@ object Private extends Controller with Secure {
       }
     )
   }
+  
+  def mark(id: Long) = Authenticated { implicit request =>
+    val rel = Relationship(from_id = request.user.id, to_id = id)
+    val existing = Relationship.findAllFromTo(request.user.id, id)
+    val user = User.findBy("id" -> id.toString).head
+    val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
+    if(existing.isEmpty) {
+      Relationship.create(rel)
+      Redirect(routes.Private.index()).flashing("Follow" -> ("You are now following " + userLink))
+    } else {
+      Redirect(routes.Private.index()).flashing("Follow" -> ("You are already following " + userLink))
+    }
+  }
+
+  def unmark(id: Long) = Authenticated { implicit request =>
+    val rel = Relationship.findAllFromTo(request.user.id, id)
+    val user = User.findBy("id" -> id.toString).head
+    val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
+    if(rel.isEmpty) {
+      Redirect(routes.Private.index()).flashing("Follow" -> ("You are not following " + userLink))
+    } else {
+      Relationship.delete(rel.head.id)
+      Redirect(routes.Private.index()).flashing("Follow" -> ("You are no longer following " + userLink))
+    }
+  }
+
+  def showMarkingUsers = Authenticated { implicit request =>
+    val marked = request.user.getAllMarking map { id =>
+      User.findBy("id" -> id.toString).head
+    }
+    Ok(views.html.Private.showMarkedUsers(request.user, marked))
+  }
+
+  def showMarkedUsers = Authenticated { implicit request =>
+    val marked = request.user.getAllMarked map { id =>
+      User.findBy("id" -> id.toString).head
+    }
+    Ok(views.html.Private.showMarkedUsers(request.user, marked))
+  }
 }
 
 

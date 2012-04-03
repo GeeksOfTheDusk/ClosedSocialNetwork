@@ -1,4 +1,5 @@
 @(user: models.User)(implicit flash: Flash, session: Session)
+@import helper._
 @menue() = @{
     session.get("user").map(u => privateMenue(session)).getOrElse(publicMenue())
 }
@@ -33,5 +34,14 @@
     
     @if(session.get("user") != None) {
         <a href="/users/@user.username/messages/new">Write message</a>
+        @if(models.User.findBy("username" -> session.get("user").get).first.isMarking(user.id)) {
+            @form(routes.Private.unmark(user.id)) {
+                <input type="submit" value="unmark"/>
+            }
+        } else {
+            @form(routes.Private.mark(user.id)) {
+                <input type="submit" value="mark"/>
+            }
+        }
     }
 }

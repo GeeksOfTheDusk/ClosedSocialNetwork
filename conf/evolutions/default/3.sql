@@ -9,6 +9,13 @@ CREATE TABLE InvitationKey (
  	PRIMARY KEY (id)
 );
 
+CREATE TABLE Relationship (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    from_id bigint(20) NOT NULL,
+    to_id bigint(20) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 # --- !Downs
 
 DROP TABLE InvitationKey;
