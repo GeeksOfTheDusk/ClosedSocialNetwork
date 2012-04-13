@@ -34,7 +34,7 @@
     
     @if(session.get("user") != None) {
         <a href="/users/@user.username/messages/new">Write message</a>
-        @if(models.User.findBy("username" -> session.get("user").get).first.isMarking(user.id)) {
+        @if(models.User.findBy("username" -> session.get("user").get).head.isMarking(user.id)) {
             @form(routes.Private.unmark(user.id)) {
                 <input type="submit" value="unmark"/>
             }
