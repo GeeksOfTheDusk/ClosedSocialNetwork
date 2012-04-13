@@ -6,6 +6,7 @@ import java.util.Date
 
 object Admin extends Controller with Secure {
   import views._
+  
   def index = Admin { implicit request =>
     val users = User.all
     Ok(html.Admin.index(users))

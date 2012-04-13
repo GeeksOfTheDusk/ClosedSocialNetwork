@@ -1,0 +1,59 @@
+@(session: Session)
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Suicide Apartment</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+@if(session.get("user") != None) {
+  @if(User.findBy("username" -> session.get("user").get).head.isAdmin) {
+              <li><a href="/admin">Administration</a></li>
+           		<li class="divider-vertical"></li>
+  }
+}
+              <li><a href="/users">Userlist</a></li>
+              <li><a href="/contribute">Contribute</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+          <form class="navbar-search pull-left">
+            <input type="text" class="search-query" placeholder="Search" />
+          </form>
+@if(session.get("user") != None) {
+          <div class="nav-collapse pull-right">
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+              	<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              		@{session.get("user")}
+              		<b class="caret"></b>
+              	</a>
+              	<ul class="dropdown-menu pull-right">
+              		<li><a href="/profile">Profile</a></li>
+              		<li><a href="/pms">Private Messages</a></li>
+              		<li class="divider"></li>
+              		<li><a href="/logout">Logout</a></li>
+              	</ul>
+             </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+}else {
+          <div class="nav-collapse pull-right">
+            <ul class="nav">
+              <li><a href="/login">Login</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+}
+        </div>
+      </div>
+    </div>
+<!--
+<a href="/users/me">My Profile</a>
+<a href="/users/me/messages">Private messages</a>
+<a href="/users/me/marking">List marked users</a>
+<a href="/users/me/markedByOthers">List users marking you</a>
+-->

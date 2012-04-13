@@ -1,12 +1,8 @@
 @(user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
-@menue() = @{
-    session.get("user").map(u => privateMenue(session)).getOrElse(publicMenue())
-}
-@main(menue()) {
-    <div>
-        <h3>Profile of @user.username</h3>
-    </div>
+@main() {
+    <h1>Profile of @user.username</h1>
+    
     <div>
         Gender: @{user.sex match {
             case "q" => "Queer"
@@ -40,7 +36,7 @@
             }
         } else {
             @form(routes.Private.mark(user.id)) {
-                <input type="submit" value="mark"/>
+                <input type="submit" value="mark" />
             }
         }
     }

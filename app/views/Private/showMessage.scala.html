@@ -1,5 +1,5 @@
 @(message: models.PrivateMessage)(implicit session:Session, flash: Flash)
-@main(privateMenue(session)){
+@main(){
     @if(message.authorID > 0) {
         @message.title from @(models.User.findBy("id" -> message.authorID.toString).head.username) on @message.writtenAt
     } else {

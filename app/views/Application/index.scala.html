@@ -1,5 +1,36 @@
-@(implicit flash: Flash)
+@(implicit flash: Flash, session: Session)
 @import play.api.Play.current
 @main() {
-    <h3>Welcome Guest</h3>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <p>Geh nicht. Nicht alleine.</p>
+        <p>Geh mit mir zusammen. Ich will nicht alleine sein. Will diesen Augenblick mit dir teilen.</p>
+        <p>All das Grau in Farben verwandeln. Lass uns zu Götterkindern werden, Leben atmen.</p>
+        <p>Nimm meine Angst vor dem Jetzt - damit ich in eine bunte Zukunft gehen kann.</p>
+        <p>Strahlendes Licht ist dort, wo wir hingehen können, wo ich hingehen muss. Komm mit.<br />
+        Zusammen ist immer besser als alleine. Nimm meinen Mut, ich nehme deinen. Zusammen schaffen wir es.</p>
+        <p>Lass uns gehen. Ein letztes mal gehen. Bald fliegen wir. Im strahlendem Licht tanzen,</p>
+        
+        <h2>Alleine... zu zweit?!</h2>
+      </div>
+
+      <!-- Great Features -->
+      <div class="row">
+        <div class="span4">
+          <h2>Simple and anonym</h2>
+           <p>The only thing you need to sign up is a invite key.<br />
+           We don't log anything and you can delete your profile and all associatet data with a simple mouse click.</p>
+          <p><a class="btn" href="/signup">Sign Up Now &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h2>Closed Community</h2>
+           <p>All potential new members need an invite key to avoid undesirables.</p>
+          <p><a class="btn" href="/signup">Sign Up Now &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h2>Open Source</h2>
+           <p>Everyone can contribute new ideas, features or bugfixes to the underlying software.</p>
+          <p><a class="btn" href="/signup">Sign Up Now &raquo;</a></p>
+        </div>
+      </div>
 }

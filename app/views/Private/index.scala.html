@@ -1,6 +1,21 @@
-@(pms: Long)(implicit request: play.api.mvc.Request[AnyContent], flash: Flash)
+@(pms: Long)(implicit request: play.api.mvc.Request[AnyContent], flash: Flash, session: Session)
 @import play.api.Play.current
-@main(privateMenue(request.session)) {
-    @if(pms > 0){You have @pms unread messages.}
-    <h3>Hello @request.session.get("user").get</h3>
+@main() {
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h3>Hello @request.session.get("user").get</h3>
+        
+        <p>Lorem ipsum ... and so on</p>
+      </div>
+
+      <div class="row">
+        @if(pms > 0){
+        <div class="span4">
+          <h2>New private Message</h2>
+           <p>You have a new private message !<br />
+           The next version of this platform will show a preview ..</p>
+          <p><a class="btn" href="/pms">Read It &raquo;</a></p>
+        </div>
+        }
+      </div>
 }

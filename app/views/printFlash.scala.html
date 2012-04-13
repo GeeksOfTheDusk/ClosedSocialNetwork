@@ -1,5 +1,7 @@
 @(flash: Flash)
 
 @for(m <- flash.data) {
-    <div>@Html(m._2)</div>
+    <div class="alert alert-info">
+      @Html(m._2)
+    </div>
 }

@@ -1,4 +1,4 @@
-@(loginForm: Form[(String, String)])(implicit flash: Flash)
+@(loginForm: Form[(String, String)])(implicit flash: Flash, session: Session)
 @import helper._
 
 @main() {
@@ -13,6 +13,6 @@
             '_label -> "Password: ",
             '_error -> loginForm.globalError
         )
-        <input type="submit" value="Login"/>
+        <input type="submit" value="Login" />
     }
 }

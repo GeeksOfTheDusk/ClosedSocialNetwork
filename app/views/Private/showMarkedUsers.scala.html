@@ -1,5 +1,5 @@
 @(user: models.User, marked: List[models.User])(implicit session:Session, flash: Flash)
-@main(privateMenue(session)) {
+@main() {
     @for(usr <- marked) {
         <div><a href="/users/@usr.username">@usr.username</a></div>
     }

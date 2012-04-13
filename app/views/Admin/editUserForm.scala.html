@@ -1,6 +1,6 @@
 @(userform: Form[(java.util.Date, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
 @import helper._
-@main(privateMenue(session)){
+@main(){
     @form(routes.Admin.editUser(user.id)) {
         Edit @user.username
 
@@ -32,6 +32,6 @@
             '_label -> "Is Admin?",
             '_help -> "Wanna be admin?"
         )
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Save" />
     }
 }

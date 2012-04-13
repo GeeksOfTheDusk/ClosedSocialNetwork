@@ -1,8 +1,7 @@
 @(user: models.User, keys: List[models.InvitationKey])(implicit session:Session, flash: Flash)
-@main(privateMenue(session)) {
-    <div>
-        <h3>Profile of @user.username</h3>
-    </div>
+@main() {
+    <h1>Profile of @user.username</h1>
+    
     <div>
         Gender: @{user.sex match {
         case "q" => "Queer"

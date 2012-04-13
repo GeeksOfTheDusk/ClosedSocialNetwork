@@ -1,5 +1,5 @@
-@(messages: List[models.PrivateMessage])(implicit request: play.api.mvc.Request[AnyContent], flash: Flash)
-@main(privateMenue(request.session)){
+@(messages: List[models.PrivateMessage])(implicit request: play.api.mvc.Request[AnyContent], flash: Flash, session: Session)
+@main(){
     @for(m <- messages) {
         <div>
             <a href="/users/me/messages/@m.id">@m.title</a>

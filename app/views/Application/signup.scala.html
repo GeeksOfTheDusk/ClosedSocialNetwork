@@ -1,4 +1,4 @@
-@(signUpForm: Form[(String, (String, String), String)])(implicit flash: Flash)
+@(signUpForm: Form[(String, (String, String), String)])(implicit flash: Flash, session: Session)
 @import helper._
 
 @main() {
@@ -26,6 +26,6 @@
             '_label -> "Registration key: ",
             '_error -> signUpForm.error("registrationkey")
         )
-        <input type="submit" value="Login"/>
+        <input type="submit" value="Login" />
     }
 }

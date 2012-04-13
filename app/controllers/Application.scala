@@ -14,7 +14,7 @@ object Application extends Controller  {
   }
 
   def index = Action { implicit request =>
-    Ok(html.Application.index(request.flash))
+    Ok(html.Application.index(request.flash, request.session))
   }
 
   def users = Action { implicit request =>

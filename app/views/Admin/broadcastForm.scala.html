@@ -1,6 +1,6 @@
 @(messageForm: Form[(String, String)])(implicit flash: Flash, session: Session)
 @import helper._
-@main(privateMenue(session)) {
+@main() {
     @form(routes.Admin.broadcast) {
         @inputText(
             messageForm("title"),
@@ -15,6 +15,6 @@
             '_error -> messageForm.error("content")
         )
 
-        <input type="submit" value="Send">
+        <input type="submit" value="Send" />
     }
 }
