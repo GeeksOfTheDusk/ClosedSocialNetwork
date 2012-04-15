@@ -24,4 +24,4 @@ and unzip it.
 
 ## Remove it
 
-If you need to remove Play or Suicide Apartment only delete the corresponding folder
+If you need to remove Play or CSN only delete the corresponding folder
