@@ -6,7 +6,7 @@ A generic solution to build anonym communities based on invites.
 Everyone can fork this project and build his own community.
 
 ## Dependencies
-Latest [Play Framework](https://github.com/playframework/play) release
+Latest version of [Play Framework 2](https://github.com/playframework/Play20)
 
 ## Participate
 
