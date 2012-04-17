@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">Suicide Apartment</a>
+          <a class="brand" href="/">@(etc.fromConfig("app.name"))</a>
           <div class="nav-collapse">
             <ul class="nav">
 @if(session.get("user") != None) {
@@ -33,8 +33,8 @@
               		<b class="caret"></b>
               	</a>
               	<ul class="dropdown-menu pull-right">
-              		<li><a href="/profile">Profile</a></li>
-              		<li><a href="/pms">Private Messages</a></li>
+              		<li><a href="/users/me">Profile</a></li>
+              		<li><a href="/users/me/messages">Private Messages</a></li>
               		<li class="divider"></li>
               		<li><a href="/logout">Logout</a></li>
               	</ul>

@@ -4,9 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Welcome :: Suicide Apartment</title>
+    <title>Welcome :: @(etc.fromConfig("app.name"))</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Suicide Apartment is a portal to find people which want to commit suicide with you.">
+    <meta name="description" content="@(etc.fromConfig("app.name")) is a portal to find people which want to commit suicide with you.">
 
     <!-- Le styles -->
     <link href="@routes.Assets.at("css/bootstrap.css")" rel="stylesheet">
@@ -41,7 +41,7 @@
       <hr>
 
       <footer>
-        <p>Suicide Apartment is distributed under <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License v3</a><p>
+        <p>@(etc.fromConfig("app.name")) is distributed under <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License v3</a><p>
       </footer>
 
     </div> <!-- /container -->
