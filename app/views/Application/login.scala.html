@@ -1,8 +1,14 @@
 @(loginForm: Form[(String, String)])(implicit flash: Flash, session: Session)
 @import helper._
+@import etc.Constructors._
 
 @main() {
     @form(routes.Application.auth) {
+        @if(loginForm.globalError != None) {
+            <div class="alert alert-error">
+                @loginForm.globalError.get.message
+            </div>
+        }
         @inputText(
             loginForm("username"),
             '_label -> "Username: ",
@@ -10,8 +16,7 @@
         )
         @inputPassword(
             loginForm("password"),
-            '_label -> "Password: ",
-            '_error -> loginForm.globalError
+            '_label -> "Password: "
         )
         <input type="submit" value="Login" />
     }

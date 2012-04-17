@@ -1,5 +1,7 @@
 @(userForm: Form[((String, String, String), java.util.Date, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
+@import etc.Constructors._
+
 @main() {
     @form(routes.Private.saveUser()){
         <h1>Editing @user.username</h1>

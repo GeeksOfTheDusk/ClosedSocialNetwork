@@ -1,5 +1,7 @@
 @(messageForm: Form[(String, String)], to: Long)(implicit flash: Flash, session: Session)
 @import helper._
+@import etc.Constructors._
+
 @main() {
     @form(routes.Private.writeMessage(to)) {
         @inputText(

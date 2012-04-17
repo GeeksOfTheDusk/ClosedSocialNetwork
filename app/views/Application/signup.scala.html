@@ -1,12 +1,13 @@
 @(signUpForm: Form[(String, (String, String), String)])(implicit flash: Flash, session: Session)
 @import helper._
-
+@import etc.Constructors._
 @main() {
     @form(routes.Application.newUser) {
         @inputText(
             signUpForm("username"),
             '_label -> "Username: ",
-            '_help -> "Choose a valid username."
+            '_help -> "Choose a valid username.",
+            '_error -> signUpForm.error("username")
         )
 
         @inputPassword(

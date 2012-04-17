@@ -2,7 +2,6 @@ package controllers
 
 import play.api.mvc._
 import models._
-import java.util.Date
 
 object Admin extends Controller with Secure {
   import views._
