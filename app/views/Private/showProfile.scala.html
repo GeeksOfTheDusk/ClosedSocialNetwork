@@ -37,7 +37,7 @@
         <p>@key.key_string</p>
     }
     @if(keys.length < 3) {
-        @helper.form(routes.Private.createKey()){<input type="submit" value="Generate key">}
+        @helper.form(routes.Private.createKey()){<button class="btn btn-mini btn-inverse" type="submit">Generate key</button>}
     }
-    <a href="/users/me/edit">Edit profile</a>
+    <a class="btn btn-primary btn-small" href="/users/me/edit">Edit profile</a>
 }

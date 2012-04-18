@@ -7,16 +7,15 @@
         @inputText(
             messageForm("title"),
             '_label -> "Title: ",
-            '_help -> "May be empty."
+            '_help -> "May be empty.",'class -> "input-xlarge"
         )
         @textarea(
             messageForm("content"),
-            'rows -> 20,
-            'cols -> 100,
+            'rows -> 10,
             '_label -> "Message: ",
-            '_error -> messageForm.error("content")
+            '_error -> messageForm.error("content"),'class -> "input-xlarge"
         )
 
-        <input type="submit" value="Send" />
+        <button type="submit" class="btn btn-primary">Send</button>
     }
 }

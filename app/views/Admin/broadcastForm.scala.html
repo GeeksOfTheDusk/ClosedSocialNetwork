@@ -1,20 +1,20 @@
 @(messageForm: Form[(String, String)])(implicit flash: Flash, session: Session)
 @import helper._
+@import etc.Constructors._
 @main() {
     @form(routes.Admin.broadcast) {
         @inputText(
             messageForm("title"),
             '_label -> "Title",
-            '_help -> "May be empty."
+            '_help -> "May be empty.",'class -> "input-xlarge"
         )
         @textarea(
             messageForm("content"),
-            'rows -> 20,
-            'cols -> 100,
+            'rows -> 10,
             '_label -> "Message",
-            '_error -> messageForm.error("content")
+            '_error -> messageForm.error("content"),'class -> "input-xlarge"
         )
 
-        <input type="submit" value="Send" />
+        <button class="btn btn-primary" type="submit">Send</button>
     }
 }

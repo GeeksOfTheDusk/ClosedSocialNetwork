@@ -29,15 +29,26 @@
     </div>
     
     @if(session.get("user") != None) {
-        <a href="/users/@user.username/messages/new">Write message</a>
+
         @if(models.User.findBy("username" -> session.get("user").get).head.isMarking(user.id)) {
             @form(routes.Private.unmark(user.id)) {
-                <input type="submit" value="unmark"/>
+                <button class="btn btn-inverse btn-small" type="submit">
+                    <i class="icon-star icon-white"></i>
+                    unmark
+                </button>
             }
         } else {
             @form(routes.Private.mark(user.id)) {
-                <input type="submit" value="mark" />
+                <button class="btn btn-inverse btn-small" type="submit">
+                    <i class="icon-star icon-white-empty"></i>
+                    mark
+                </button>
             }
         }
+
+        <a class="btn btn-success btn-small" href="/users/@user.username/messages/new">
+            <i class="icon-envelope icon-white"></i>
+            Write message
+        </a>
     }
 }

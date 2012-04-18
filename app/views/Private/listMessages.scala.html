@@ -2,7 +2,7 @@
 @main(){
     @for(m <- messages) {
         <div>
-            <a href="/users/me/messages/@m.id">@m.title</a>
+            <a href="/users/me/messages/@m.id">@m.title @(models.User.findBy("id" -> m.authorID.toString).head.username)</a>
         </div>
     }
 }

@@ -8,38 +8,37 @@
         <input type="hidden" name="user.username" value="@user.username" />
         @inputPassword(
             userForm("user.new"),
-            '_label -> "New Password: "
+            '_label -> "New Password: ",'class -> "input-xlarge"
         )
 
         @inputPassword(
             userForm("user.old"),
             '_label -> "Old Password: ",
             '_help -> "Only needed when changing passwords.",
-            '_error -> userForm.error("user")
+            '_error -> userForm.error("user"),'class -> "input-xlarge"
         )
 
         @inputDate(
             userForm("bday"),
-            '_label -> "Date of Birth: "
+            '_label -> "Date of Birth: ",'class -> "input-xlarge"
         )
 
         @inputDate(
             userForm("dday"),
-            '_label -> "Wished date of death: "
+            '_label -> "Wished date of death: ",'class -> "input-xlarge"
         )
 
         @textarea(
             userForm("about"),
             '_label -> "About you: ",
-            'rows -> 15,
-            'cols -> 100
+            'rows -> 10,'class -> "input-xlarge"
         )
 
         @checkbox(
             userForm("anonym"),
             '_label -> "Anonym?",
-            '_help -> ""
+            '_help -> "",'class -> "input-xlarge"
         )
-        <input type="submit" value="Save" />
+        <button type="submit" class="btn btn-primary">Save</button>
     }
 }

@@ -7,26 +7,28 @@
             signUpForm("username"),
             '_label -> "Username: ",
             '_help -> "Choose a valid username.",
-            '_error -> signUpForm.error("username")
+            '_error -> signUpForm.error("username"),
+'class -> "input-xlarge"
         )
 
         @inputPassword(
             signUpForm("password.main"),
-            '_label -> "Password: "
+            '_label -> "Password: ",
+'class -> "input-xlarge"
         )
 
         @inputPassword(
             signUpForm("password.confirm"),
             '_label -> "Repeat password",
             '_help -> "Please repeat your password again.",
-            '_error -> signUpForm.error("password")
+            '_error -> signUpForm.error("password"),'class -> "input-xlarge"
         )
 
         @inputText(
             signUpForm("registrationkey"),
             '_label -> "Registration key: ",
-            '_error -> signUpForm.error("registrationkey")
+            '_error -> signUpForm.error("registrationkey"),'class -> "input-xlarge"
         )
-        <input type="submit" value="Login" />
+        <button type="submit" class="btn btn-primary">Sign Up</button>
     }
 }

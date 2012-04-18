@@ -12,12 +12,14 @@
         @inputText(
             loginForm("username"),
             '_label -> "Username: ",
-            '_help -> "Choose a valid username"
+            '_help -> "Choose a valid username",
+            'class -> "input-xlarge"
         )
         @inputPassword(
             loginForm("password"),
-            '_label -> "Password: "
+            '_label -> "Password: ",
+            'class -> "input-xlarge"
         )
-        <input type="submit" value="Login" />
+        <button type="submit" class="btn btn-primary">Login</button>
     }
 }

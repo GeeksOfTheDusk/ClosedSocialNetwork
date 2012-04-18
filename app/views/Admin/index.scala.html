@@ -3,10 +3,19 @@
 @main(){
     <h1>Admin area.</h1>
     @for(user <- users) {
-        @user.id @user.username <a href="/admin/users/@user.id">Edit</a>
-        @form(routes.Admin.delete(user.id)){<input type="submit" value="Delete">}
+
+        @form(routes.Admin.delete(user.id)){
+            @user.id @user.username <a class="btn btn-mini" href="/admin/users/@user.id">Edit</a>
+            <button class="btn btn-danger btn-mini" type="submit">Delete</button>
+        }
         <br/>
     }
-    <a href="/admin/users/new">Create new user</a>
-    <a href="/admin/message/all">Broadcast</a>
+    <a class="btn btn-primary" href="/admin/users/new">
+        <i class="icon-plus icon-white"></i>
+        Create new user
+    </a>
+    <a class="btn" href="/admin/message/all">
+        <i class="icon-exclamation-sign" ></i>
+        Broadcast
+    </a>
 }

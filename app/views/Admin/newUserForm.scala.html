@@ -4,38 +4,37 @@
 
 @main(){
     @form(routes.Admin.createUser) {
-        @inputText(userform("user.username"), '_label -> "Username", '_error -> userform.error("user.username"))
+        @inputText(userform("user.username"), '_label -> "Username", '_error -> userform.error("user.username"),'class -> "input-xlarge")
 
-        @inputPassword(userform("user.password"), '_label -> "Password")
+        @inputPassword(userform("user.password"), '_label -> "Password",'class -> "input-xlarge")
 
         @inputDate(
             userform("bday"),
-            '_label -> "Date of Birth"
+            '_label -> "Date of Birth",'class -> "input-xlarge"
         )
 
         @inputDate(
             userform("dday"),
-            '_label -> "Wished date of death"
+            '_label -> "Wished date of death",'class -> "input-xlarge"
         )
 
         @textarea(
             userform("about"),
             '_label -> "About you",
-            'rows -> 15,
-            'cols -> 100
+            'rows -> 10,'class -> "input-xlarge"
         )
 
         @checkbox(
             userform("anonym"),
             '_label -> "Anonym?",
-            '_help -> "Wanna be anonym?"
+            '_help -> "Wanna be anonym?",'class -> "input-xlarge"
         )
 
         @checkbox(
             userform("admin"),
             '_label -> "Is Admin?",
-            '_help -> "Wanna be admin?"
+            '_help -> "Wanna be admin?",'class -> "input-xlarge"
         )
-        <input type="submit" value="Create" />
+        <button type="submit" class="btn btn-primary">Create</button>
     }
 }
