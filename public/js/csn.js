@@ -1,8 +1,31 @@
 // dashboard
 function refreshMessagelist() {
-  $.getJSON('/users/me/messages.json', function(messages) {
+  var count = 6;
+  $.getJSON('/users/me/messages.json', { count: count }, function(data) {
+    // create hint to more messages
+    if(data.messages.length >= count) {
+      if($('#pms p a+a').size() <= 0) {
+        $('#pms p')
+        .append(' ')
+        .append(
+          $('<a>')
+          .attr('class', 'btn')
+          .attr('href', '/users/me/messages')
+          .html('List more &raquo;')
+        )
+      }
+    }else {
+      $('#pms p a+a').remove();
+    }
+    
+    // list pms
     $('#pms ul').empty();
-    $.each(messages.messages, function(key, message) {
+    $.each(data.messages, function(key, message) {
+      // handle hint to more messages
+      if(key + 1 == count) {
+        return false;
+      }
+      
       var li = $('<li>');
       li.append(
         $('<a>')
