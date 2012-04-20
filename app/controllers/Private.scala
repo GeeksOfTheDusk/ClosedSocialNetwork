@@ -25,7 +25,7 @@ object Private extends Controller with Secure {
   }
 
   def listPmAsJSON = Authenticated { implicit request =>
-    val messages = PrivateMessage.allReceived(request.user.id)
+    val messages = PrivateMessage.allReceived(request.user.id).sortWith(_.writtenAt.getTime > _.writtenAt.getTime)
     var json = new StringBuilder
     json.append("{\n    \"messages\":[")
     for(message <- messages) {
