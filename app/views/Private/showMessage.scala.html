@@ -9,6 +9,9 @@
         @message.content
     </div>
     @if(message.authorID > 0) {
-        <a href="/users/me/messages/reply/@message.id">Reply</a>
+        <a class="btn btn-success" href="/users/me/messages/reply/@message.id">
+            <i class="icon-arrow-left icon-white"></i>
+            Reply
+        </a>
     }
 }
