@@ -3,6 +3,7 @@ package controllers
 import play.api.mvc._
 import models._
 import java.util.Date
+import play.api.libs.json._
 
 object Private extends Controller with Secure {
 
@@ -21,6 +22,28 @@ object Private extends Controller with Secure {
   def listPm = Authenticated { implicit request =>
     val messages = PrivateMessage.allReceived(request.user.id)
     Ok(html.Private.listMessages(messages))
+  }
+
+  def listPmAsJSON = Authenticated { implicit request =>
+    val messages = PrivateMessage.allReceived(request.user.id)
+    var json = new StringBuilder
+    json.append("{\n    \"messages\":[")
+    for(message <- messages) {
+      json.append("""
+        {
+          "author": """" + User.findBy("id" -> message.authorID.toString).head.username + """",
+          "authorID": """" + message.authorID + """",
+          "title": """" + message.title.get + """" ,
+          "writtenAt": """" + message.writtenAt + """"
+        }""")
+      if(message != messages.last) {
+        json.append(",")
+      }
+    }
+
+    json.append("\n    ]\n}")
+    
+    Ok(json.toString).as("application/json")
   }
   
   def showPm(id: Long) = Authenticated { implicit request =>

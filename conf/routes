@@ -17,6 +17,7 @@ GET     /users/me                               controllers.Private.me
 GET     /users/:name                            controllers.Application.user(name)
 GET     /users                                  controllers.Application.users
 GET     /users/me/messages                      controllers.Private.listPm
+GET     /users/me/messages.json                 controllers.Private.listPmAsJSON
 GET     /users/me/edit                          controllers.Private.editUser
 GET     /users/me/messages/reply/:id            controllers.Private.reply(id: Long)
 GET     /users/me/messages/:id                  controllers.Private.showPm(id: Long)
