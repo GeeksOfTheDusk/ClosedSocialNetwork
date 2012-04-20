@@ -1,7 +1,6 @@
 // dashboard
 function refreshMessagelist() {
   $.getJSON('/users/me/messages.json', function(messages) {
-    console.log(messages);
     $('#pms ul').empty();
     $.each(messages.messages, function(key, message) {
       var li = $('<li>');
