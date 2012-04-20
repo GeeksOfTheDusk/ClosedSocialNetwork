@@ -37,7 +37,13 @@
         <p>@key.key_string</p>
     }
     @if(keys.length < 3) {
-        @helper.form(routes.Private.createKey()){<button class="btn btn-mini btn-inverse" type="submit">Generate key</button>}
+        @helper.form(routes.Private.createKey()){<button class="btn btn-mini btn-inverse" type="submit">
+            <i class="icon-lock icon-white"></i>
+            Generate key
+        </button>}
     }
-    <a class="btn btn-primary btn-small" href="/users/me/edit">Edit profile</a>
+    <a class="btn btn-primary btn-small" href="/users/me/edit">
+        <i class="icon-edit icon-white"></i>
+        Edit profile
+    </a>
 }
