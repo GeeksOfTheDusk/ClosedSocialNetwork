@@ -1,0 +1,27 @@
+@(messageForm: Form[(String, String, String)])(implicit flash: Flash, session: Session)
+@import helper._
+@import etc.Constructors._
+
+@main() {
+    @form(routes.Private.writeMessage(0)) {
+        @inputText(
+            messageForm("receiver"),
+            '_label -> "To: ",
+            '_error -> messageForm.error("to"),
+            'class -> "input-xlarge"
+        )
+        @inputText(
+            messageForm("title"),
+            '_label -> "Title: ",
+            '_help -> "May be empty.",'class -> "input-xlarge"
+        )
+        @textarea(
+            messageForm("content"),
+            'rows -> 10,
+            '_label -> "Message: ",
+            '_error -> messageForm.error("content"),'class -> "input-xlarge"
+        )
+
+        <button type="submit" class="btn btn-primary">Send</button>
+    }
+}

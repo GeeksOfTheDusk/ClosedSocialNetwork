@@ -12,6 +12,7 @@ GET     /public                                 controllers.Application.index
 GET     /login                                  controllers.Application.login
 GET     /logout                                 controllers.Private.logout
 GET     /users/:name/messages/new               controllers.Private.newMessage(name)
+GET     /users/messages/new                     controllers.Private.newMessageEx
 GET     /users/new                              controllers.Application.signup
 GET     /users/me                               controllers.Private.me
 GET     /users/:name                            controllers.Application.user(name)

@@ -42,6 +42,14 @@ object Forms {
     )
   )
 
+  val messageFormEx = Form (
+    tuple (
+      "receiver" -> nonEmptyText.verifying("User not found", value => !models.User.findBy("username" -> value).isEmpty),
+      "title" -> text,
+      "content" -> nonEmptyText
+    )
+  )
+
   val editUserForm = Form {
     tuple(
       "user" -> tuple (

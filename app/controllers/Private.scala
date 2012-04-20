@@ -69,17 +69,34 @@ object Private extends Controller with Secure {
       Redirect(routes.Private.index()).flashing("notFound" -> ("User " + name + " not found"))
     Ok(html.Private.messageForm(Forms.messageForm, users.head.id))
   }
+
+  def newMessageEx = Authenticated { implicit request =>
+    Ok(html.Private.messageFormEx(Forms.messageFormEx))
+  }
   
   def writeMessage(to: Long) = Authenticated { implicit request =>
-    Forms.messageForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(html.Private.messageForm(formWithErrors, to)),
-      value =>  { val (title, content) = value
-        val optionTitle = if(title.isEmpty) None else Some(title)
-        PrivateMessage.create(PrivateMessage(authorID = request.user.id,
-          receiverID = to,  title = optionTitle, content = content))
-        Redirect(routes.Private.index()).flashing("message" -> "Message send.")
-      }
-    )
+    if(to == 0) {
+      Forms.messageFormEx.bindFromRequest.fold(
+        formWithErrors => BadRequest(html.Private.messageFormEx(formWithErrors)),
+        value =>  { val (username, title, content) = value
+          val to = User.findBy("username" -> username).head.id
+          val optionTitle = if(title.isEmpty) None else Some(title)
+          PrivateMessage.create(PrivateMessage(authorID = request.user.id,
+            receiverID = to,  title = optionTitle, content = content))
+          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
+        }
+      )
+    } else {
+      Forms.messageForm.bindFromRequest.fold(
+        formWithErrors => BadRequest(html.Private.messageForm(formWithErrors, to)),
+        value =>  { val (title, content) = value
+          val optionTitle = if(title.isEmpty) None else Some(title)
+          PrivateMessage.create(PrivateMessage(authorID = request.user.id,
+            receiverID = to,  title = optionTitle, content = content))
+          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
+        }
+      )
+    }
   }
 
   def createKey = Authenticated { implicit request =>
