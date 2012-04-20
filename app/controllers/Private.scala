@@ -31,11 +31,14 @@ object Private extends Controller with Secure {
     for(message <- messages) {
       json.append("""
         {
+          "id": """" + message.id + """",
           "author": """" + User.findBy("id" -> message.authorID.toString).head.username + """",
           "authorID": """" + message.authorID + """",
-          "title": """" + message.title.get + """" ,
-          "writtenAt": """" + message.writtenAt + """"
+          "title": """" + message.title.get + """",
+          "writtenAt": """" + message.writtenAt + """",
+          "new": """" + {if(message.readAt == None){"true"}else{"false"}} + """"
         }""")
+
       if(message != messages.last) {
         json.append(",")
       }
