@@ -1,6 +1,9 @@
 @(pms: Long)(implicit request: play.api.mvc.Request[AnyContent], flash: Flash, session: Session)
 @import play.api.Play.current
 @main() {
+      <script>
+        ready.push('refreshMessagelist');
+      </script>
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h3>Hello @request.session.get("user").get</h3>
@@ -9,13 +12,10 @@
       </div>
 
       <div class="row">
-        @if(pms > 0){
-        <div class="span4">
-          <h2>New private Message</h2>
-           <p>You have a new private message !<br />
-           The next version of this platform will show a preview ..</p>
-          <p><a class="btn" href="/users/me/messages">Read It &raquo;</a></p>
+        <div class="span4" id="pms">
+          <h2>Private Messages</h2>
+          <ul></ul>
+          <p><a class="btn" href="/users/me/messages">Write one &raquo;</a></p>
         </div>
-        }
       </div>
 }
