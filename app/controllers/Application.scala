@@ -3,6 +3,7 @@ package controllers
 import play.api.mvc._
 import java.text.SimpleDateFormat
 import models.{InvitationKey, User}
+import play.api.libs.Crypto
 
 object Application extends Controller  {
 
@@ -39,7 +40,7 @@ object Application extends Controller  {
         val regKey = models.InvitationKey.findByKey(key).head
         User.create(User(
           username = username,
-          hashedPW = password,
+          hashedPW = Crypto.sign(password),
           invitedBy = regKey.creator_id))
         InvitationKey.delete(regKey.id)
         Redirect(routes.Private.index()).withSession("user" -> username).flashing("register" -> "Registration successfull")

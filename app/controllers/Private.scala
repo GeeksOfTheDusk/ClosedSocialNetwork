@@ -4,6 +4,7 @@ import play.api.mvc._
 import models._
 import java.util.Date
 import play.api.libs.json._
+import play.api.libs.Crypto
 
 object Private extends Controller with Secure {
 
@@ -128,7 +129,7 @@ object Private extends Controller with Secure {
         println("success")
         val((_,pw,_),bday, dday, about, anonym, _) = value
         val user = request.user
-        user.hashedPW = if(!pw.isEmpty)pw else user.hashedPW
+        user.hashedPW = if(!pw.isEmpty)Crypto.sign(pw) else user.hashedPW
         user.dateOfBirth = bday
         user.dateOfDeath = dday
         user.description = about

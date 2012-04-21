@@ -2,8 +2,8 @@ package controllers
 
 import play.api.data._
 import play.api.data.Forms._
-import java.util.Date
 import models.User
+import play.api.libs.Crypto
 
 
 object Forms {
@@ -12,7 +12,7 @@ object Forms {
       "username" -> nonEmptyText,
       "password" -> nonEmptyText
     )
-    verifying("Invalid user name or password", value => !models.User.connect(value._1, value._2).isEmpty)
+    verifying("Invalid user name or password", value => !models.User.connect(value._1, Crypto.sign(value._2)).isEmpty)
   )
   
   val signUpForm = Form (
@@ -61,7 +61,7 @@ object Forms {
         if(!value._2.isEmpty) {
           val oldPw = value._3
           val user = User.findBy("username" -> value._1).head
-          oldPw == user.hashedPW
+          Crypto.sign(oldPw) == user.hashedPW
         } else {
           true
         }

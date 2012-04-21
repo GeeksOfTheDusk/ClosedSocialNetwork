@@ -2,6 +2,7 @@ package controllers
 
 import play.api.mvc._
 import models._
+import play.api.libs.Crypto
 
 object Admin extends Controller with Secure {
   import views._
@@ -25,7 +26,7 @@ object Admin extends Controller with Secure {
       formsWithErrors => BadRequest(html.Admin.newUserForm(formsWithErrors)),
       value => {
         val ((username, pw), bday, dday, about, anonym, admin) = value
-        val user = new User(username = username, hashedPW = pw, dateOfBirth = bday, dateOfDeath = dday,
+        val user = new User(username = username, hashedPW = Crypto.sign(pw), dateOfBirth = bday, dateOfDeath = dday,
           description = about, anonym = anonym, isAdmin = admin)
         User.create(user)
         Redirect(routes.Admin.index())
