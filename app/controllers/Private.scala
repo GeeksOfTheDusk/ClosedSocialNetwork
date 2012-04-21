@@ -178,6 +178,30 @@ object Private extends Controller with Secure {
     }
     Ok(views.html.Private.showMarkedUsers(request.user, marked))
   }
+
+  def showMarkedUsersAsJSON = Authenticated { implicit request =>
+    val markedUsers = request.user.getAllMarked map { id =>
+      User.findBy("id" -> id.toString).head
+    }
+
+    var json = new StringBuilder
+    json.append("{\n    \"marked\":[")
+    for(u <- markedUsers) {
+      json.append("""
+        {
+          "id": """ + u.id + """,
+          "username": """" + u.username + """"
+        }""")
+
+      if(u != markedUsers.last) {
+        json.append(",")
+      }
+    }
+
+    json.append("\n    ]\n    \"markedByOthers\": " + !request.user.getAllMarking.isEmpty + "\n}")
+
+    Ok(json.toString).as("application/json")
+  }
 }
 
 

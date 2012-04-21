@@ -24,6 +24,7 @@ GET     /users/me/messages/reply/:id            controllers.Private.reply(id: Lo
 GET     /users/me/messages/:id                  controllers.Private.showPm(id: Long)
 GET     /users/me/markedByOthers                controllers.Private.showMarkingUsers
 GET     /users/me/marking                       controllers.Private.showMarkedUsers
+GET     /users/me/marking.json                  controllers.Private.showMarkedUsersAsJSON
 
 # Post requests
 POST    /admin/users/delete/:id                 controllers.Admin.delete(id: Long)
