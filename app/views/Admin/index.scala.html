@@ -2,14 +2,30 @@
 @import helper._
 @main(){
     <h1>Admin area.</h1>
+    <table border="0" class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Username
+                </th>
+            </tr>
+        </thead>
     @for(user <- users) {
-
+        <tbody>
+        <tr>
         @form(routes.Admin.delete(user.id)){
-            @user.id @user.username <a class="btn btn-mini" href="/admin/users/@user.id">Edit</a>
-            <button class="btn btn-danger btn-mini" type="submit">Delete</button>
+            <td>@user.id</td>
+            <td>@user.username</td>
+            <td><a class="btn btn-mini" href="/admin/users/@user.id">Edit</a></td>
+            <td><button class="btn btn-danger btn-mini" type="submit">Delete</button></td>
         }
-        <br/>
+        </tr>
+        </tbody>
     }
+    </table>
     <a class="btn btn-primary" href="/admin/users/new">
         <i class="icon-plus icon-white"></i>
         Create new user
