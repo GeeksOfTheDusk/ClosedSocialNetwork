@@ -3,7 +3,6 @@ package controllers
 import play.api.mvc._
 import models._
 import java.util.Date
-import play.api.libs.json._
 import play.api.libs.Crypto
 
 object Private extends Controller with Secure {
@@ -29,7 +28,7 @@ object Private extends Controller with Secure {
     val messages = PrivateMessage.allReceived(request.user.id).sortWith(_.writtenAt.getTime > _.writtenAt.getTime)
       .slice(0, count)
     var json = new StringBuilder
-    json.append("{\n    \"messages\":[")
+    json.append("{\n    \"messages.en-US\":[")
     for(message <- messages) {
       json.append("""
         {
@@ -84,7 +83,6 @@ object Private extends Controller with Secure {
           val optionTitle = if(title.isEmpty) None else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
         }
       )
     } else {
@@ -94,10 +92,10 @@ object Private extends Controller with Secure {
           val optionTitle = if(title.isEmpty) None else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
         }
       )
     }
+    Redirect(routes.Private.index()).flashing("message" -> "Message send.")
   }
 
   def createKey = Authenticated { implicit request =>

@@ -1,24 +1,31 @@
-# Default (en)
+# German (de)
 #
 login=Login
-userlist=Userlist
-signup=Sign Up
-username=Username
-password=Password
-repeat_password=Repeat Password
-signin=Sign In
-submit=Submit
-writepm=Write a private message
-showpms=Show private messages
-gender=Gender
-male=male
-female=female
-queer=queer
-birthday=Birthday
-age=Age
+userlist=Benutzerliste
+signup=Registrierung
+username=Benutzername
+password=Passwort
+repeat_password=Passwort wiederholen
+signin=Anmelden
+submit=Absenden
+writepm=Private Nachricht senden
+showpms=Private Nachrichten anzeigen
+gender=Geschlecht
+male=Männlich
+female=Weiblich
+queer=Queer
+birthday=Geburtstag
+age=Alter
 anonym=Anonym
-msg_from_at=From %s at %s
-showprofile=Show profile
+msg_from_at=Von %s um %s
+showprofile=Zeige Profil
 logout=Logout
-key=Registration key
-createkey=Create new registration key
+
+# Flash messages
+login_successful=Login successful
+registration_successful=Registration successful
+
+# Form errors
+invalid_user_name_or_password=Ungültiger Benutzername oder Passwort!
+username_is_taken=Den Benutzer gibt es schon!
+passwords_dont_match=Passwords don't match!

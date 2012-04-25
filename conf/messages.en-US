@@ -1,0 +1,33 @@
+# Default (en)
+#
+login=Login
+userlist=Userlist
+signup=Sign Up
+username=Username
+password=Password
+repeat_password=Repeat Password
+signin=Sign In
+submit=Submit
+writepm=Write a private message
+showpms=Show private messages
+gender=Gender
+male=male
+female=female
+queer=queer
+birthday=Birthday
+age=Age
+anonym=Anonym
+msg_from_at=From %s at %s
+showprofile=Show profile
+logout=Logout
+key=Registration key
+createkey=Create new registration key
+
+# Flash messages
+login_successful=Login successful Bla
+registration_successful=Registration successful
+
+# Form errors
+invalid_user_name_or_password=Invalid user name or password
+username_is_taken=Username is taken!
+passwords_dont_match=Passwords don't match Bla!

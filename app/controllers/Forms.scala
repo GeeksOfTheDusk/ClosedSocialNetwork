@@ -4,6 +4,7 @@ import play.api.data._
 import play.api.data.Forms._
 import models.User
 import play.api.libs.Crypto
+import play.api.i18n.Messages
 
 
 object Forms {
@@ -12,16 +13,16 @@ object Forms {
       "username" -> nonEmptyText,
       "password" -> nonEmptyText
     )
-    verifying("Invalid user name or password", value => !models.User.connect(value._1, Crypto.sign(value._2)).isEmpty)
+    verifying(Messages("invalid_user_name_or_password"), value => !models.User.connect(value._1, Crypto.sign(value._2)).isEmpty)
   )
   
   val signUpForm = Form (
     tuple (
-      "username" -> nonEmptyText(minLength = 3).verifying("Username is taken!", username => models.User.findBy("username" -> username).isEmpty),
+      "username" -> nonEmptyText(minLength = 3).verifying(Messages("username_is_taken"), username => models.User.findBy("username" -> username).isEmpty),
       "password" -> tuple (
         "main" -> nonEmptyText,
         "confirm" -> nonEmptyText
-      ).verifying ( "Passwords don't match!", passwords =>
+      ).verifying ( Messages("passwords_dont_match"), passwords =>
         passwords._1 == passwords._2
       ),
       "registrationkey" -> nonEmptyText.verifying("Invalid registration key!", {key =>
