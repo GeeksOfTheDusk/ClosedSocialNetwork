@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat
 import java.util.Date
+import models.User
 import play.api.Configuration
 import views.html.helper.FieldConstructor
 
@@ -10,6 +11,25 @@ package object etc {
   implicit def dateToString(date: Date): String = {
     val sdf = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss")
     sdf.format(date)
+  }
+  
+  implicit def listToHeadOption(list: List[User]) = new {
+    def ^? = {
+      if(list.isEmpty)
+        None
+      else
+        Option(list.head)
+    }
+  }
+  
+  implicit def longUserExists(id: Long) = new {
+    def ? = {
+      if(User.findBy("id" -> id.toString).isEmpty) {
+        false
+      } else {
+        true
+      }
+    }
   }
   
   object Constructors {

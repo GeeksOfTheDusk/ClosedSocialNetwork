@@ -4,6 +4,7 @@ import play.api.mvc._
 import models._
 import java.util.Date
 import play.api.libs.Crypto
+import etc._
 
 object Private extends Controller with Secure {
 
@@ -33,8 +34,8 @@ object Private extends Controller with Secure {
       json.append("""
         {
           "id": """ + message.id + """,
-          "author": """" + User.findBy("id" -> message.authorID.toString).head.username + """",
-          "authorID": """ + message.authorID + """,
+          "author": """" + User.findBy("id" -> message.authorID.toString).^?.map(_.username).getOrElse("NA") + """",
+          "authorID": """ + (if(message.authorID.?) message.authorID else -1) + """,
           "title": """" + message.title.get + """",
           "writtenAt": """" + message.writtenAt + """",
           "new": """ + {if(message.readAt == None){"true"}else{"false"}} + """

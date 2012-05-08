@@ -1,8 +1,11 @@
 @(messages: List[models.PrivateMessage])(implicit request: play.api.mvc.Request[AnyContent], flash: Flash, session: Session)
+@import etc._
 @main(){
     @for(m <- messages) {
         <div>
-            <a href="/users/me/pmessages/@m.id">@m.title @(models.User.findBy("id" -> m.authorID.toString).head.username)</a>
+            <a href="/users/me/pmessages/@m.id">@m.title
+                @(models.User.findBy("id" -> m.authorID.toString).
+                ^?.map(_.username).getOrElse("NA"))</a>
         </div>
     }
 }

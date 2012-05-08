@@ -27,6 +27,14 @@ function refreshMessagelist() {
       }
       
       var li = $('<li>');
+      var user = ''
+      if(message.authorId >= 0) {
+        user = $('<a>').attr('href', '/users/'+message.author)
+                       .text(message.author)
+      } else {
+        user = message.author
+      }
+
       li.append(
         $('<a>')
         .attr('href', '/users/me/pmessages/'+message.id)
@@ -35,11 +43,7 @@ function refreshMessagelist() {
       .append(
         ' from '
       )
-      .append(
-        $('<a>')
-        .attr('href', '/users/'+message.author)
-        .text(message.author)
-      )
+      .append(user)
       
       if(message.new) {
         li.append(' ').append(

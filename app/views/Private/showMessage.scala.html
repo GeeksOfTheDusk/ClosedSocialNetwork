@@ -1,14 +1,16 @@
 @(message: models.PrivateMessage)(implicit session:Session, flash: Flash)
+@import etc._
 @main(){
     @if(message.authorID > 0) {
-        @message.title from @(models.User.findBy("id" -> message.authorID.toString).head.username) on @message.writtenAt
+        @message.title from @(models.User.findBy("id" -> message.authorID.toString).
+          ^?.map(_.username).getOrElse("NA")) on @message.writtenAt
     } else {
         @message.title
     }
     <div>
         @message.content
     </div>
-    @if(message.authorID > 0) {
+    @if(message.authorID.?) {
         <a class="btn btn-success" href="/users/me/pmessages/reply/@message.id">
             <i class="icon-arrow-left icon-white"></i>
             Reply
