@@ -166,10 +166,10 @@ object Private extends Controller with Secure {
     val user = User.findBy("id" -> id.toString).head
     val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
     if(rel.isEmpty) {
-      Redirect(routes.Private.index()).flashing("info" -> Messages("no_longer_following", userLink))
+      Redirect(routes.Private.index()).flashing("info" -> Messages("not_following", userLink))
     } else {
       Relationship.delete(rel.head.id)
-      Redirect(routes.Private.index()).flashing("warning" -> Messages("not_following", userLink))
+      Redirect(routes.Private.index()).flashing("warning" -> Messages("no_longer_following", userLink))
     }
   }
 
