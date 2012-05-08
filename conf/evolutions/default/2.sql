@@ -7,7 +7,7 @@ CREATE TABLE PrivateMessage (
 	authorID bigint(20) NOT NULL,
 	receiverID bigint(20) NOT NULL,
 	title varchar(255),
-	content varchar(255) NOT NULL,
+	content text NOT NULL,
 	writtenAt timestamp NOT NULL,
 	readAt timestamp NULL,
 	FOREIGN KEY (receiverID) REFERENCES User(id),
