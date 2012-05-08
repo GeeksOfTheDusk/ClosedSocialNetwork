@@ -1,7 +1,21 @@
 @(flash: Flash)
 
 @for(m <- flash.data) {
-    <div class="alert alert-info">
-      @Html(m._2)
-    </div>
+    @if(m._1 == "success") {
+        <div class="alert alert-info">
+          @Html(m._2)
+        </div>
+    }
+
+    @if(m._1 == "warning") {
+        <div class="alert alert-warning">
+            @Html(m._2)
+        </div>
+    }
+
+    @if(m._1 == "error") {
+        <div class="alert alert-error">
+            @Html(m._2)
+        </div>
+    }
 }
