@@ -1,7 +1,7 @@
 // dashboard
 function refreshMessagelist() {
   var count = 6;
-  $.getJSON('/users/me/messages.json', { count: count }, function(data) {
+  $.getJSON('/users/me/pmessages.json', { count: count }, function(data) {
     // create hint to more messages
     if(data.messages.length >= count) {
       if($('#pms p a+a').size() <= 0) {
@@ -10,7 +10,7 @@ function refreshMessagelist() {
         .append(
           $('<a>')
           .attr('class', 'btn')
-          .attr('href', '/users/me/messages')
+          .attr('href', '/users/me/pmessages')
           .html('List more &raquo;')
         )
       }
@@ -29,7 +29,7 @@ function refreshMessagelist() {
       var li = $('<li>');
       li.append(
         $('<a>')
-        .attr('href', '/users/me/messages/'+message.id)
+        .attr('href', '/users/me/pmessages/'+message.id)
         .text(message.title)
       )
       .append(

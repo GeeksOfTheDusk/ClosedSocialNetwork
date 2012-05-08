@@ -6,22 +6,22 @@
 GET     /                                       controllers.Private.index
 GET     /admin                                  controllers.Admin.index
 GET     /admin/users/new                        controllers.Admin.newUser
-GET     /admin/message/all                      controllers.Admin.broadcastForm
+GET     /admin/pmessages/all                    controllers.Admin.broadcastForm
 GET     /admin/users/:id                        controllers.Admin.editUserForm(id: Long)
 GET     /public                                 controllers.Application.index
 GET     /login                                  controllers.Application.login
 GET     /logout                                 controllers.Private.logout
-GET     /users/:name/messages/new               controllers.Private.newMessage(name)
-GET     /users/messages/new                     controllers.Private.newMessageEx
+GET     /users/:name/pmessages/new              controllers.Private.newMessage(name)
+GET     /users/pmessages/new                    controllers.Private.newMessageEx
 GET     /users/new                              controllers.Application.signup
 GET     /users/me                               controllers.Private.me
 GET     /users/:name                            controllers.Application.user(name)
 GET     /users                                  controllers.Application.users
-GET     /users/me/messages                      controllers.Private.listPm
-GET     /users/me/messages.json                 controllers.Private.listPmAsJSON(count: Int)
+GET     /users/me/pmessages                     controllers.Private.listPm
+GET     /users/me/pmessages.json                controllers.Private.listPmAsJSON(count: Int)
 GET     /users/me/edit                          controllers.Private.editUser
-GET     /users/me/messages/reply/:id            controllers.Private.reply(id: Long)
-GET     /users/me/messages/:id                  controllers.Private.showPm(id: Long)
+GET     /users/me/pmessages/reply/:id           controllers.Private.reply(id: Long)
+GET     /users/me/pmessages/:id                 controllers.Private.showPm(id: Long)
 GET     /users/me/markedByOthers                controllers.Private.showMarkingUsers
 GET     /users/me/marking                       controllers.Private.showMarkedUsers
 GET     /users/me/marking.json                  controllers.Private.showMarkedUsersAsJSON
@@ -30,7 +30,7 @@ GET     /users/me/marking.json                  controllers.Private.showMarkedUs
 POST    /admin/users/delete/:id                 controllers.Admin.delete(id: Long)
 POST    /admin/users/create                     controllers.Admin.createUser
 POST    /admin/users/edit/:id                   controllers.Admin.editUser(id: Long)
-POST    /admin/message/all                      controllers.Admin.broadcast
+POST    /admin/pmessages/all                      controllers.Admin.broadcast
 POST    /auth                                   controllers.Application.auth
 POST    /newUser                                controllers.Application.newUser
 POST    /sendPm                                 controllers.Private.writeMessage(to: Long)

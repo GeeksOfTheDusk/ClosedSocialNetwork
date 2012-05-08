@@ -28,7 +28,7 @@ object Private extends Controller with Secure {
     val messages = PrivateMessage.allReceived(request.user.id).sortWith(_.writtenAt.getTime > _.writtenAt.getTime)
       .slice(0, count)
     var json = new StringBuilder
-    json.append("{\n    \"messages.en-US\":[")
+    json.append("{\n    \"messages\":[")
     for(message <- messages) {
       json.append("""
         {
@@ -77,12 +77,15 @@ object Private extends Controller with Secure {
   def writeMessage(to: Long) = Authenticated { implicit request =>
     if(to == 0) {
       Forms.messageFormEx.bindFromRequest.fold(
-        formWithErrors => BadRequest(html.Private.messageFormEx(formWithErrors)),
+        formWithErrors => {
+          BadRequest(html.Private.messageFormEx(formWithErrors))
+        },
         value =>  { val (username, title, content) = value
           val to = User.findBy("username" -> username).head.id
           val optionTitle = if(title.isEmpty) None else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
+          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
         }
       )
     } else {
@@ -92,10 +95,10 @@ object Private extends Controller with Secure {
           val optionTitle = if(title.isEmpty) None else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
+          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
         }
       )
     }
-    Redirect(routes.Private.index()).flashing("message" -> "Message send.")
   }
 
   def createKey = Authenticated { implicit request =>
