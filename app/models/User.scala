@@ -107,7 +107,7 @@ object User {
   }
   
   def connect(username: String,  password: String) = DB.withConnection { implicit c =>
-    SQL("select * from User where username is {username} and hashedPW = {hash}").on(
+    SQL("select * from User where username like {username} and hashedPW = {hash}").on(
     'username -> username,
     'hash -> password
     ).as(user *)
