@@ -38,6 +38,7 @@ object PrivateMessage {
   }
 
   def create(pm: PrivateMessage) {
+    pm.content = pm.content.replace("<", "&lt;").replace(">", "&gt;")
     DB.withConnection { implicit c =>
       SQL("""
       insert into PrivateMessage (authorid, receiverid, title, content, writtenat)
