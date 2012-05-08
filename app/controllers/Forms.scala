@@ -22,10 +22,10 @@ object Forms {
       "password" -> tuple (
         "main" -> nonEmptyText,
         "confirm" -> nonEmptyText
-      ).verifying ( Messages("passwords_dont_match"), passwords =>
+      ).verifying ( Messages("passwords_do_not_match"), passwords =>
         passwords._1 == passwords._2
       ),
-      "registrationkey" -> nonEmptyText.verifying("Invalid registration key!", {key =>
+      "registrationkey" -> nonEmptyText.verifying(Messages("invalid_registration_key"), {key =>
         val keys = models.InvitationKey.findByKey(key)
         if(keys.isEmpty)
           false
@@ -45,7 +45,7 @@ object Forms {
 
   val messageFormEx = Form (
     tuple (
-      "receiver" -> nonEmptyText.verifying("User not found", value => !models.User.findBy("username" -> value).isEmpty),
+      "receiver" -> nonEmptyText.verifying(Messages("user_not_found"), value => !models.User.findBy("username" -> value).isEmpty),
       "title" -> text,
       "content" -> nonEmptyText
     )
@@ -57,7 +57,7 @@ object Forms {
         "username" -> nonEmptyText,
         "new" -> text,
         "old" -> text
-      ).verifying("Old password is missing", value =>{
+      ).verifying(Messages("old_password_is_missing"), value =>{
         println(value)
         if(!value._2.isEmpty) {
           val oldPw = value._3
@@ -78,7 +78,7 @@ object Forms {
   val newUserForm = Form {
     tuple(
       "user" -> tuple (
-        "username" -> nonEmptyText.verifying("Username is allready taken", value => models.User.findBy("username" -> value).isEmpty),
+        "username" -> nonEmptyText.verifying(Messages("username_is_taken"), value => models.User.findBy("username" -> value).isEmpty),
         "password" -> nonEmptyText
       ),
       "bday" -> date,

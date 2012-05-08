@@ -22,10 +22,13 @@ showprofile=Zeige Profil
 logout=Logout
 
 # Flash messages
-login_successful=Login successful
-registration_successful=Registration successful
+login_successful=Login erfolgreich.
+registration_successful=Registration erfolgreich.
 
 # Form errors
 invalid_user_name_or_password=Ungültiger Benutzername oder Passwort!
 username_is_taken=Den Benutzer gibt es schon!
-passwords_dont_match=Passwords don't match!
+passwords_do_not_match=Passwörter stimmen nicht überein!
+invalid_registration_key=Ungültiger Registrierungsschlüssel!
+user_not_found=Benutzer nicht gefunden!
+old_password_is_missing=Kein altes Passwort angegeben!
