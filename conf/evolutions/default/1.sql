@@ -8,7 +8,6 @@ CREATE TABLE User (
 	hashedPW varchar(255) NOT NULL,
 	sex char(1) NOT NULL,
 	dateOfBirth date NOT NULL,
-	dateOfDeath date NOT NULL,
 	description clob,
 	anonym boolean NOT NULL,
 	invitedBy bigint(20) NOT NULL,

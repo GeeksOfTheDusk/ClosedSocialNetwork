@@ -15,17 +15,17 @@ object Global extends GlobalSettings {
   override def onStart(app: Application) {
     if(User.count == 0) {
       User.create(User(
-        0, "frogurth", Crypto.sign("mysecret"), "m", "1988-01-25", "2012-12-21", "blabla blabla",
+        0, "frogurth", Crypto.sign("mysecret"), "m", "1988-01-25", "blabla blabla",
         false, 0, new Date, new Date, true
       ))
 
       User.create(User(
-        0, "god", Crypto.sign("bible"), "q", "2000-01-01", "2012-12-21", "blabla blabla",
+        0, "god", Crypto.sign("bible"), "q", "2000-01-01", "blabla blabla",
         false, 0, new Date, new Date, false
       ))
 
       User.create(User(
-        0, "geek", Crypto.sign("ente"), "m", "2000-01-01", "2012-12-21", "blabla blabla",
+        0, "geek", Crypto.sign("ente"), "m", "2000-01-01", "blabla blabla",
         false, 0, new Date, new Date, true
       ))
 

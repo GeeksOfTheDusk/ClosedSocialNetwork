@@ -25,8 +25,8 @@ object Admin extends Controller with Secure {
     Forms.newUserForm.bindFromRequest.fold (
       formsWithErrors => BadRequest(html.Admin.newUserForm(formsWithErrors)),
       value => {
-        val ((username, pw), bday, dday, about, anonym, admin) = value
-        val user = new User(username = username, hashedPW = Crypto.sign(pw), dateOfBirth = bday, dateOfDeath = dday,
+        val ((username, pw), bday, about, anonym, admin) = value
+        val user = new User(username = username, hashedPW = Crypto.sign(pw), dateOfBirth = bday,
           description = about, anonym = anonym, isAdmin = admin)
         User.create(user)
         Redirect(routes.Admin.index())
@@ -40,7 +40,7 @@ object Admin extends Controller with Secure {
       BadRequest(html.Admin.index(User.all))
     } else {
       val toFill = (user.dateOfBirth,
-        user.dateOfDeath, user.description, user.anonym, user.isAdmin)
+        user.description, user.anonym, user.isAdmin)
       
       Ok(html.Admin.editUserForm(Forms.adminEditUserForm.fill(toFill), user))
     }
@@ -54,9 +54,8 @@ object Admin extends Controller with Secure {
       Forms.adminEditUserForm.bindFromRequest.fold (
         formsWithErrors => BadRequest(html.Admin.editUserForm(formsWithErrors, user)),
         value => {
-          val (bday, dday, about, anonym, admin) = value
+          val (bday, about, anonym, admin) = value
           user.dateOfBirth = bday
-          user.dateOfDeath = dday
           user.description = about
           user.anonym = anonym
           user.isAdmin = admin

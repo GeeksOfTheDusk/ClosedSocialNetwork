@@ -68,7 +68,6 @@ object Forms {
         }
       }),
       "bday" -> date,
-      "dday" -> date,
       "about" -> text,
       "anonym" -> boolean,
       "admin" -> boolean
@@ -82,7 +81,6 @@ object Forms {
         "password" -> nonEmptyText
       ),
       "bday" -> date,
-      "dday" -> date,
       "about" -> text,
       "anonym" -> boolean,
       "admin" -> boolean
@@ -92,7 +90,6 @@ object Forms {
   val adminEditUserForm = Form {
     tuple(
       "bday" -> date,
-      "dday" -> date,
       "about" -> text,
       "anonym" -> boolean,
       "admin" -> boolean
