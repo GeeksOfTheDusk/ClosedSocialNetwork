@@ -40,7 +40,7 @@ object PrivateMessage {
   def create(pm: PrivateMessage) {
     DB.withConnection { implicit c =>
       SQL("""
-      insert into privateMessage (authorid, receiverid, title, content, writtenat)
+      insert into PrivateMessage (authorid, receiverid, title, content, writtenat)
       values ({from},{to},{title},{content},{wat})
       """).on('from -> pm.authorID, 'to -> pm.receiverID, 'title -> pm.title,
         'content -> pm.content, 'wat -> pm.writtenAt)

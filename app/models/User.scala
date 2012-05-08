@@ -54,14 +54,14 @@ object User {
   }
 
   def count: Long = DB.withConnection { implicit c =>
-    SQL("select count(*) from user").as(scalar[Long].single)
+    SQL("select count(*) from User").as(scalar[Long].single)
   }
 
   def create(user: User) {
     DB.withConnection { implicit c =>
       SQL(
         """
-        insert into user
+        insert into User
         (username, hashedPW, sex, dateOfBirth, dateOfDeath, description, anonym, invitedBy, registrationDate, lastLogin, isadmin)
         values ( {name}, {pw}, {sex}, {bday}, {dday}, {desc}, {an}, {by}, {reg}, {ll}, {admin} );
         """)
@@ -109,7 +109,7 @@ object User {
   }
   
   def connect(username: String,  password: String) = DB.withConnection { implicit c =>
-    SQL("select * from User where username is {username} and hashedPW is {hash}").on(
+    SQL("select * from User where username is {username} and hashedPW = {hash}").on(
     'username -> username,
     'hash -> password
     ).as(user *)
