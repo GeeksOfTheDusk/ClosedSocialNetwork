@@ -28,25 +28,25 @@ object Relationship {
 
   def findAllFrom(id: Long) = {
     DB.withConnection { implicit c =>
-      SQL("select * from Relationship where from_id is {from}").on('from -> id).as(rel *)
+      SQL("select * from Relationship where from_id = {from}").on('from -> id).as(rel *)
     }
   }
 
   def findAllTo(id: Long) = {
     DB.withConnection { implicit c =>
-      SQL("select * from Relationship where to_id is {from}").on('from -> id).as(rel *)
+      SQL("select * from Relationship where to_id = {from}").on('from -> id).as(rel *)
     }
   }
 
   def findAllFromTo(from: Long, to: Long) = {
     DB.withConnection { implicit c =>
-      SQL("select * from Relationship where from_id is {from} and to_id is {to} ").on('from -> from, 'to -> to).as(rel *)
+      SQL("select * from Relationship where from_id = {from} and to_id = {to} ").on('from -> from, 'to -> to).as(rel *)
     }
   }
 
   def findById(id: Long) = {
     DB.withConnection { implicit c =>
-      SQL("select * from Relationship where id is {id}").on('id -> id).as(rel *)
+      SQL("select * from Relationship where id = {id}").on('id -> id).as(rel *)
     }
   }
 }
