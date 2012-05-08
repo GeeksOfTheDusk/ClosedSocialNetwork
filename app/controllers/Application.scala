@@ -44,7 +44,7 @@ object Application extends Controller  {
           hashedPW = Crypto.sign(password),
           invitedBy = regKey.creator_id))
         InvitationKey.delete(regKey.id)
-        Redirect(routes.Private.index()).withSession("user" -> username).flashing("register" -> Messages("registration_successful"))
+        Redirect(routes.Private.index()).withSession("user" -> username).flashing("success" -> Messages("registration_successful"))
       }
     )
   }
@@ -57,7 +57,7 @@ object Application extends Controller  {
     Forms.loginForm.bindFromRequest.fold (
       formWithErrors => BadRequest(html.Application.login(formWithErrors)),
       value => { val (username, _) = value
-        Redirect(routes.Private.index()).withSession("user" -> username).flashing("login" -> Messages("login_successful"))
+        Redirect(routes.Private.index()).withSession("user" -> username).flashing("success" -> Messages("login_successful"))
       }
     )
   }

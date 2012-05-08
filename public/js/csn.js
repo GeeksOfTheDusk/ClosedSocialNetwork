@@ -28,6 +28,9 @@ function refreshMessagelist() {
       
       var li = $('<li>');
       var user = ''
+
+      // add link to author id the user exists
+      // else just print author name
       if(message.authorID >= 0) {
         user = $('<a>').attr('href', '/users/'+message.author)
                        .text(message.author)
