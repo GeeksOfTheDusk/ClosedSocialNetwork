@@ -9,7 +9,7 @@ CREATE TABLE User (
 	sex char(1) NOT NULL,
 	dateOfBirth date NOT NULL,
 	dateOfDeath date NOT NULL,
-	description blob,
+	description text,
 	anonym boolean NOT NULL,
 	invitedBy bigint(20) NOT NULL,
 	registrationDate date NOT NULL,
