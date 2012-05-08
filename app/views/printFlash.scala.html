@@ -1,9 +1,15 @@
 @(flash: Flash)
 
 @for(m <- flash.data) {
-    @if(m._1 == "success") {
+    @if(m._1 == "info") {
         <div class="alert alert-info">
           @Html(m._2)
+        </div>
+    }
+
+    @if(m._1 == "success") {
+        <div class="alert alert-success">
+            @Html(m._2)
         </div>
     }
 

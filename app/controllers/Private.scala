@@ -5,6 +5,7 @@ import models._
 import java.util.Date
 import play.api.libs.Crypto
 import etc._
+import play.api.i18n.Messages
 
 object Private extends Controller with Secure {
 
@@ -53,10 +54,14 @@ object Private extends Controller with Secure {
   
   def showPm(id: Long) = Authenticated { implicit request =>
     val messages = PrivateMessage.allReceived(request.user.id).filter(_.id == id )
-    val m = messages.head
-    m.readAt = Some(new Date)
-    PrivateMessage.update(m)
-    Ok(html.Private.showMessage(m))
+    if(messages.isEmpty) {
+      Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
+    } else {
+      val m = messages.head
+      m.readAt = Some(new Date)
+      PrivateMessage.update(m)
+      Ok(html.Private.showMessage(m))
+    }
   }
   
   def me = Authenticated { implicit request =>
@@ -67,7 +72,7 @@ object Private extends Controller with Secure {
   def newMessage(name: String) = Authenticated { implicit request =>
     val users = User.findBy("username" -> name)
     if(users.isEmpty)
-      Redirect(routes.Private.index()).flashing("notFound" -> ("User " + name + " not found"))
+      Redirect(routes.Private.index()).flashing("error" -> Messages("user_x_not_found", name))
     Ok(html.Private.messageForm(Forms.messageForm, users.head.id))
   }
 
@@ -86,7 +91,7 @@ object Private extends Controller with Secure {
           val optionTitle = if(title.isEmpty) None else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
+          Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
         }
       )
     } else {
@@ -96,7 +101,7 @@ object Private extends Controller with Secure {
           val optionTitle = if(title.isEmpty) None else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
+          Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
         }
       )
     }
@@ -104,13 +109,13 @@ object Private extends Controller with Secure {
 
   def createKey = Authenticated { implicit request =>
     models.InvitationKey.create(InvitationKey(creator_id = request.user.id))
-    Redirect(routes.Private.me()).flashing("key" -> "New invitation key generated.")
+    Redirect(routes.Private.me()).flashing("info" -> Messages("new_key"))
   }
 
   def reply(id: Long) = Authenticated { implicit request =>
     val messages = PrivateMessage.findById(id)
     if(messages.isEmpty) {
-      Redirect(routes.Private.listPm()).flashing("nopm" -> "Message not found")
+      Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
     } else {
       val form = Forms.messageForm.fill(("Re: " + messages.head.title.getOrElse(""), "----\n" + messages.head.content + "\n----"))
       Ok(html.Private.messageForm(form, messages.head.authorID))
@@ -148,9 +153,9 @@ object Private extends Controller with Secure {
     val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
     if(existing.isEmpty) {
       Relationship.create(rel)
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are now following " + userLink))
+      Redirect(routes.Private.index()).flashing("info" -> Messages("following", userLink))
     } else {
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are already following " + userLink))
+      Redirect(routes.Private.index()).flashing("warning" -> Messages("already_following", userLink))
     }
   }
 
@@ -159,10 +164,10 @@ object Private extends Controller with Secure {
     val user = User.findBy("id" -> id.toString).head
     val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
     if(rel.isEmpty) {
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are not following " + userLink))
+      Redirect(routes.Private.index()).flashing("info" -> Messages("no_longer_following", userLink))
     } else {
       Relationship.delete(rel.head.id)
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are no longer following " + userLink))
+      Redirect(routes.Private.index()).flashing("warning" -> Messages("not_following", userLink))
     }
   }
 
