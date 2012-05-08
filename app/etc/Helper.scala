@@ -27,6 +27,10 @@ package object etc {
   implicit def stringToHtml(s: String) = new {
     def escape = {
       s.replace("\n", "<br/>")
+        .replace("[b]", "<b>").replace("[/b]", "</b>")
+        .replace("[i]", "<i>").replace("[/i]", "</i>")
+        .replace("[u]", "<u>").replace("[/u]", "</u>")
+        .replace("[center]", "<center>").replace("[/center]", "</center>")
     }
   }
   
