@@ -28,7 +28,7 @@ function refreshMessagelist() {
       
       var li = $('<li>');
       var user = ''
-      if(message.authorId >= 0) {
+      if(message.authorID >= 0) {
         user = $('<a>').attr('href', '/users/'+message.author)
                        .text(message.author)
       } else {
