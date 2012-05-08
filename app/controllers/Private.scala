@@ -88,7 +88,7 @@ object Private extends Controller with Secure {
         },
         value =>  { val (username, title, content) = value
           val to = User.findBy("username" -> username).head.id
-          val optionTitle = if(title.isEmpty) None else Some(title)
+          val optionTitle = if(title.isEmpty) Some("No Title") else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
           Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
@@ -98,7 +98,7 @@ object Private extends Controller with Secure {
       Forms.messageForm.bindFromRequest.fold(
         formWithErrors => BadRequest(html.Private.messageForm(formWithErrors, to)),
         value =>  { val (title, content) = value
-          val optionTitle = if(title.isEmpty) None else Some(title)
+          val optionTitle = if(title.isEmpty) Some("No Title") else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
           Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
@@ -117,7 +117,10 @@ object Private extends Controller with Secure {
     if(messages.isEmpty) {
       Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
     } else {
-      val form = Forms.messageForm.fill(("Re: " + messages.head.title.getOrElse(""), "----\n" + messages.head.content + "\n----"))
+      val content = messages.head.content.split("\n").map("> "+_).mkString("\n")
+      val originalAuthor = User.findBy("id" -> messages.head.authorID.toString).^?.map(_.username).getOrElse("NA")
+      val header = "from " + originalAuthor + " on " + messages.head.writtenAt.normalize
+      val form = Forms.messageForm.fill(("Re: " + messages.head.title.getOrElse(""), " \n" + header + "\n" + content))
       Ok(html.Private.messageForm(form, messages.head.authorID))
     }
   }
@@ -212,6 +215,11 @@ object Private extends Controller with Secure {
   def deleteProfile = Authenticated { implicit request =>
     User.delete(request.user.id)
     Redirect(routes.Application.index()).withNewSession
+  }
+
+  def deleteMessage(id: Long) = Authenticated { implicit request =>
+    PrivateMessage.delete(id)
+    Redirect(routes.Private.listPm()).flashing("success" -> Messages("pm_deleted"))
   }
 }
 

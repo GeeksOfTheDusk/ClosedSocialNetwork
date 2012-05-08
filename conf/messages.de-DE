@@ -32,6 +32,7 @@ following=Sie folgen nun {0}.
 already_following=Sie folgen bereits {0}.
 not_following=Sie folgen {0} nicht mehr.
 no_longer_following=Sie folgen {0} nicht.
+pm_deleted=Nachricht gelöscht.
 
 # Form errors
 invalid_user_name_or_password=Ungültiger Benutzername oder Passwort!
