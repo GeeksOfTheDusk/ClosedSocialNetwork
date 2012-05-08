@@ -5,6 +5,7 @@ import models._
 import java.util.Date
 import play.api.libs.Crypto
 import etc._
+import play.api.i18n.Messages
 
 object Private extends Controller with Secure {
 
@@ -53,10 +54,14 @@ object Private extends Controller with Secure {
   
   def showPm(id: Long) = Authenticated { implicit request =>
     val messages = PrivateMessage.allReceived(request.user.id).filter(_.id == id )
-    val m = messages.head
-    m.readAt = Some(new Date)
-    PrivateMessage.update(m)
-    Ok(html.Private.showMessage(m))
+    if(messages.isEmpty) {
+      Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
+    } else {
+      val m = messages.head
+      m.readAt = Some(new Date)
+      PrivateMessage.update(m)
+      Ok(html.Private.showMessage(m))
+    }
   }
   
   def me = Authenticated { implicit request =>
@@ -67,7 +72,7 @@ object Private extends Controller with Secure {
   def newMessage(name: String) = Authenticated { implicit request =>
     val users = User.findBy("username" -> name)
     if(users.isEmpty)
-      Redirect(routes.Private.index()).flashing("notFound" -> ("User " + name + " not found"))
+      Redirect(routes.Private.index()).flashing("error" -> Messages("user_x_not_found", name))
     Ok(html.Private.messageForm(Forms.messageForm, users.head.id))
   }
 
@@ -83,20 +88,20 @@ object Private extends Controller with Secure {
         },
         value =>  { val (username, title, content) = value
           val to = User.findBy("username" -> username).head.id
-          val optionTitle = if(title.isEmpty) None else Some(title)
+          val optionTitle = if(title.isEmpty) Some("No Title") else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
+          Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
         }
       )
     } else {
       Forms.messageForm.bindFromRequest.fold(
         formWithErrors => BadRequest(html.Private.messageForm(formWithErrors, to)),
         value =>  { val (title, content) = value
-          val optionTitle = if(title.isEmpty) None else Some(title)
+          val optionTitle = if(title.isEmpty) Some("No Title") else Some(title)
           PrivateMessage.create(PrivateMessage(authorID = request.user.id,
             receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("message" -> "Message send.")
+          Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
         }
       )
     }
@@ -104,21 +109,24 @@ object Private extends Controller with Secure {
 
   def createKey = Authenticated { implicit request =>
     models.InvitationKey.create(InvitationKey(creator_id = request.user.id))
-    Redirect(routes.Private.me()).flashing("key" -> "New invitation key generated.")
+    Redirect(routes.Private.me()).flashing("info" -> Messages("new_key"))
   }
 
   def reply(id: Long) = Authenticated { implicit request =>
     val messages = PrivateMessage.findById(id)
     if(messages.isEmpty) {
-      Redirect(routes.Private.listPm()).flashing("nopm" -> "Message not found")
+      Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
     } else {
-      val form = Forms.messageForm.fill(("Re: " + messages.head.title.getOrElse(""), "----\n" + messages.head.content + "\n----"))
+      val content = messages.head.content.split("\n").map("> "+_).mkString("\n")
+      val originalAuthor = User.findBy("id" -> messages.head.authorID.toString).^?.map(_.username).getOrElse("NA")
+      val header = "from " + originalAuthor + " on " + messages.head.writtenAt.normalize
+      val form = Forms.messageForm.fill(("Re: " + messages.head.title.getOrElse(""), " \n" + header + "\n" + content))
       Ok(html.Private.messageForm(form, messages.head.authorID))
     }
   }
 
   def editUser = Authenticated { implicit request =>
-    val data = ((request.user.username, "", ""), request.user.dateOfBirth, request.user.dateOfDeath,
+    val data = ((request.user.username, "", ""), request.user.dateOfBirth,
       request.user.description, request.user.anonym, request.user.isAdmin)
     val filledForm = Forms.editUserForm.fill(data)
     Ok(html.Private.editUserForm(filledForm, request.user))
@@ -128,11 +136,10 @@ object Private extends Controller with Secure {
     Forms.editUserForm.bindFromRequest.fold(
       errors =>BadRequest(html.Private.editUserForm(errors, request.user)),
       value => {
-        val((_,pw,_),bday, dday, about, anonym, _) = value
+        val((_,pw,_),bday, about, anonym, _) = value
         val user = request.user
         user.hashedPW = if(!pw.isEmpty)Crypto.sign(pw) else user.hashedPW
         user.dateOfBirth = bday
-        user.dateOfDeath = dday
         user.description = about
         user.anonym = anonym
         User.update(user)
@@ -148,9 +155,9 @@ object Private extends Controller with Secure {
     val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
     if(existing.isEmpty) {
       Relationship.create(rel)
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are now following " + userLink))
+      Redirect(routes.Private.index()).flashing("info" -> Messages("following", userLink))
     } else {
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are already following " + userLink))
+      Redirect(routes.Private.index()).flashing("warning" -> Messages("already_following", userLink))
     }
   }
 
@@ -159,10 +166,10 @@ object Private extends Controller with Secure {
     val user = User.findBy("id" -> id.toString).head
     val userLink = """<a href="/users/"""+user.username+"\">"+user.username+"</a>"
     if(rel.isEmpty) {
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are not following " + userLink))
+      Redirect(routes.Private.index()).flashing("info" -> Messages("no_longer_following", userLink))
     } else {
       Relationship.delete(rel.head.id)
-      Redirect(routes.Private.index()).flashing("Follow" -> ("You are no longer following " + userLink))
+      Redirect(routes.Private.index()).flashing("warning" -> Messages("not_following", userLink))
     }
   }
 
@@ -207,6 +214,11 @@ object Private extends Controller with Secure {
   def deleteProfile = Authenticated { implicit request =>
     User.delete(request.user.id)
     Redirect(routes.Application.index()).withNewSession
+  }
+
+  def deleteMessage(id: Long) = Authenticated { implicit request =>
+    PrivateMessage.delete(id)
+    Redirect(routes.Private.listPm()).flashing("success" -> Messages("pm_deleted"))
   }
 }
 

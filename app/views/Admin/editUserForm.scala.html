@@ -1,4 +1,4 @@
-@(userform: Form[(java.util.Date, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
+@(userform: Form[(java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
 @import helper._
 @import etc.Constructors._
 
@@ -9,11 +9,6 @@
         @inputDate(
             userform("bday"),
             '_label -> "Date of Birth",'class -> "input-xlarge"
-        )
-
-        @inputDate(
-            userform("dday"),
-            '_label -> "Wished date of death",'class -> "input-xlarge"
         )
 
         @textarea(

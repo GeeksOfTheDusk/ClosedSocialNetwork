@@ -3,9 +3,13 @@
 @main(){
     @for(m <- messages) {
         <div>
-            <a href="/users/me/pmessages/@m.id">@m.title
-                @(models.User.findBy("id" -> m.authorID.toString).
-                ^?.map(_.username).getOrElse("NA"))</a>
+            <a href="/users/me/pmessages/@m.id">@m.title</a> from
+            @if(m.authorID.?) {
+                <a href="/users/@(models.User.findBy("id" -> m.authorID.toString))">@(models.User.findBy("id" -> m.authorID.toString).head.username)</a>
+            } else {
+                NA
+            }
+            <a href="/users/me/pmessages/delete/@m.id"><i class="icon-remove"></i></a>
         </div>
     }
 }

@@ -11,7 +11,6 @@ case class User(var id: Long = 0,
                 var hashedPW: String,
                 var sex: String = "n",
                 var dateOfBirth: Date = new Date,
-                var dateOfDeath: Date = new Date,
                 var description: String = "N/A",
                 var anonym: Boolean = false,
                 var invitedBy: Long = 0,
@@ -32,11 +31,11 @@ case class User(var id: Long = 0,
 object User {
   def user = {
     get[Long]("id") ~ get[String]("username") ~ get[String]("hashedPW") ~ get[String]("sex") ~ get[Date]("dateOfBirth") ~
-      get[Date]("dateOfDeath") ~ get[String]("description") ~ get[Boolean]("anonym") ~ get[Long]("invitedBy") ~
+      get[String]("description") ~ get[Boolean]("anonym") ~ get[Long]("invitedBy") ~
       get[Date]("registrationDate") ~ get[Date]("lastLogin") ~ get[Boolean]("isAdmin") map {
-      case id~username~hashedPW~sex~dateOfBirth~dateOfDeath~description~anonym~invitedBy~registrationDate~lastLogin~isAdmin =>
+      case id~username~hashedPW~sex~dateOfBirth~description~anonym~invitedBy~registrationDate~lastLogin~isAdmin =>
         User(id, username, hashedPW, sex, dateOfBirth,
-          dateOfDeath, description, anonym, invitedBy,
+          description, anonym, invitedBy,
           registrationDate, lastLogin, isAdmin)
     }
   }
@@ -62,11 +61,11 @@ object User {
       SQL(
         """
         insert into User
-        (username, hashedPW, sex, dateOfBirth, dateOfDeath, description, anonym, invitedBy, registrationDate, lastLogin, isadmin)
-        values ( {name}, {pw}, {sex}, {bday}, {dday}, {desc}, {an}, {by}, {reg}, {ll}, {admin} );
+        (username, hashedPW, sex, dateOfBirth, description, anonym, invitedBy, registrationDate, lastLogin, isadmin)
+        values ( {name}, {pw}, {sex}, {bday}, {desc}, {an}, {by}, {reg}, {ll}, {admin} );
         """)
         .on('name -> user.username , 'pw -> user.hashedPW, 'sex -> user.sex, 'bday -> user.dateOfBirth
-        , 'dday -> user.dateOfDeath, 'desc -> user.description, 'an -> user.anonym, 'by -> user.invitedBy, 'reg -> user.registrationDate
+        , 'desc -> user.description, 'an -> user.anonym, 'by -> user.invitedBy, 'reg -> user.registrationDate
         , 'll -> user.lastLogin, 'admin -> user.isAdmin)
         .executeUpdate()
     }
@@ -92,7 +91,6 @@ object User {
         hashedPW={pw},
         sex={sex},
         dateOfBirth={bday},
-        dateOfDeath={dday},
         description={desc},
         anonym={an},
         invitedBy={by},
@@ -102,7 +100,7 @@ object User {
         where id = {id}
         """)
         .on('name -> user.username , 'pw -> user.hashedPW, 'sex -> user.sex, 'bday -> user.dateOfBirth
-        , 'dday -> user.dateOfDeath, 'desc -> user.description, 'an -> user.anonym, 'by -> user.invitedBy, 'reg -> user.registrationDate
+        , 'desc -> user.description, 'an -> user.anonym, 'by -> user.invitedBy, 'reg -> user.registrationDate
         , 'll -> user.lastLogin, 'admin -> user.isAdmin, 'id -> user.id)
         .executeUpdate()
     }

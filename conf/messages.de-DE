@@ -24,6 +24,15 @@ logout=Logout
 # Flash messages
 login_successful=Login erfolgreich.
 registration_successful=Registration erfolgreich.
+user_x_not_found=Benutzer {0} nicht gefunden!
+message_send=Nachricht wurde gesendet.
+new_key=Neuen Registrierungsschlüssel erzeugt.
+message_not_found=Nachricht nicht gefunden.
+following=Sie folgen nun {0}.
+already_following=Sie folgen bereits {0}.
+not_following=Sie folgen {0} nicht mehr.
+no_longer_following=Sie folgen {0} nicht.
+pm_deleted=Nachricht gelöscht.
 
 # Form errors
 invalid_user_name_or_password=Ungültiger Benutzername oder Passwort!

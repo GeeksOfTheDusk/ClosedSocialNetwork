@@ -25,6 +25,7 @@ GET     /users/me/pmessages/:id                 controllers.Private.showPm(id: L
 GET     /users/me/markedByOthers                controllers.Private.showMarkingUsers
 GET     /users/me/marking                       controllers.Private.showMarkedUsers
 GET     /users/me/marking.json                  controllers.Private.showMarkedUsersAsJSON
+GET     /users/me/pmessages/delete/:id          controllers.Private.deleteMessage(id: Long)
 
 # Post requests
 POST    /admin/users/delete/:id                 controllers.Admin.delete(id: Long)
