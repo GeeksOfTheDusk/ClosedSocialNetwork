@@ -20,12 +20,19 @@ anonym=Anonym
 msg_from_at=From %s at %s
 showprofile=Show profile
 logout=Logout
-key=Registration key
-createkey=Create new registration key
 
 # Flash messages
 login_successful=Login successful.
 registration_successful=Registration successful.
+user_x_not_found=User {0} not found!
+message_send=Message send.
+new_key=New registration key generated.
+message_not_found=Message not found.
+following=Your are following {0} now.
+already_following=Your are already following {0}.
+no_longer_following=You are no longer following {0}.
+not_following=Your aren't following {0}.
+pm_deleted=Message deleted.
 
 # Form errors
 invalid_user_name_or_password=Invalid user name or password!
