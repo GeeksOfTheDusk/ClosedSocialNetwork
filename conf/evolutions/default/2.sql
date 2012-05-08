@@ -9,7 +9,7 @@ CREATE TABLE PrivateMessage (
 	title varchar(255),
 	content varchar(255) NOT NULL,
 	writtenAt timestamp NOT NULL,
-	readAt timestamp,
+	readAt timestamp NULL,
 	FOREIGN KEY (receiverID) REFERENCES User(id),
 	PRIMARY KEY (id)
 );
