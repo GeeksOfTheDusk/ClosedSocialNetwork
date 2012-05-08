@@ -42,7 +42,7 @@ object User {
   }
 
   def all = DB.withConnection { implicit c =>
-    SQL("select * from user").as(user *)
+    SQL("select * from User").as(user *)
   }
 
   def notNotAnonym = DB.withConnection { implicit c =>
@@ -50,7 +50,7 @@ object User {
   }
 
   def findBy(param: (String,  String)):List[User] =  DB.withConnection { implicit c =>
-    SQL("select * from user where " + param._1 + " = {p}").on('p -> param._2).as(user *)
+    SQL("select * from User where " + param._1 + " = {p}").on('p -> param._2).as(user *)
   }
 
   def count: Long = DB.withConnection { implicit c =>
