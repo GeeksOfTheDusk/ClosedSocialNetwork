@@ -76,7 +76,7 @@ object User {
       PrivateMessage.delete(m.id)
     }
     DB.withConnection { implicit c =>
-      SQL("delete from user where id = {id}")
+      SQL("delete from User where id = {id}")
         .on('id -> id)
         .executeUpdate()
     }
@@ -86,7 +86,7 @@ object User {
     DB.withConnection { implicit c =>
       SQL(
         """
-        update user
+        update User
         set username={name},
         hashedPW={pw},
         sex={sex},
