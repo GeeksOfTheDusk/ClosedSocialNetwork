@@ -16,7 +16,6 @@ object Application extends Controller  {
   }
 
   def index = Action { implicit request =>
-    println(request.acceptLanguages.map(_.code).mkString(", "))
     Ok(html.Application.index(request.flash, request.session))
   }
 

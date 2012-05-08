@@ -73,6 +73,9 @@ object User {
   }
 
   def delete(id: Long) {
+    PrivateMessage.allReceived(id).foreach { m =>
+      PrivateMessage.delete(m.id)
+    }
     DB.withConnection { implicit c =>
       SQL("delete from user where id = {id}")
         .on('id -> id)

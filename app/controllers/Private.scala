@@ -125,9 +125,8 @@ object Private extends Controller with Secure {
   
   def saveUser = Authenticated { implicit request =>
     Forms.editUserForm.bindFromRequest.fold(
-      errors =>{println("failed"); BadRequest(html.Private.editUserForm(errors, request.user))},
+      errors =>BadRequest(html.Private.editUserForm(errors, request.user)),
       value => {
-        println("success")
         val((_,pw,_),bday, dday, about, anonym, _) = value
         val user = request.user
         user.hashedPW = if(!pw.isEmpty)Crypto.sign(pw) else user.hashedPW
@@ -202,6 +201,11 @@ object Private extends Controller with Secure {
     json.append("\n    ]\n    \"markedByOthers\": " + !request.user.getAllMarking.isEmpty + "\n}")
 
     Ok(json.toString).as("application/json")
+  }
+
+  def deleteProfile = Authenticated { implicit request =>
+    User.delete(request.user.id)
+    Redirect(routes.Application.index()).withNewSession
   }
 }
 

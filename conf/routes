@@ -30,7 +30,7 @@ GET     /users/me/marking.json                  controllers.Private.showMarkedUs
 POST    /admin/users/delete/:id                 controllers.Admin.delete(id: Long)
 POST    /admin/users/create                     controllers.Admin.createUser
 POST    /admin/users/edit/:id                   controllers.Admin.editUser(id: Long)
-POST    /admin/pmessages/all                      controllers.Admin.broadcast
+POST    /admin/pmessages/all                    controllers.Admin.broadcast
 POST    /auth                                   controllers.Application.auth
 POST    /newUser                                controllers.Application.newUser
 POST    /sendPm                                 controllers.Private.writeMessage(to: Long)
@@ -38,6 +38,7 @@ POST    /createKey                              controllers.Private.createKey
 POST    /saveUser                               controllers.Private.saveUser
 POST    /mark                                   controllers.Private.mark(id: Long)
 POST    /unmark                                 controllers.Private.unmark(id: Long)
+POST    /deleteProfile                          controllers.Private.deleteProfile
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
