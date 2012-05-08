@@ -3,6 +3,7 @@ import java.util.Date
 import models.User
 import play.api.Configuration
 import views.html.helper.FieldConstructor
+import scala.util.matching._
 
 package object etc {
   val config = Configuration.load(null)
@@ -26,12 +27,29 @@ package object etc {
 
   implicit def stringToHtml(s: String) = new {
     def escape = {
-      s.replace("\n", "<br/>")
+      var html = s.replace("\n", "<br/>")
         .replace("[b]", "<b>").replace("[/b]", "</b>")
         .replace("[i]", "<i>").replace("[/i]", "</i>")
         .replace("[u]", "<u>").replace("[/u]", "</u>")
         .replace("[center]", "<center>").replace("[/center]", "</center>")
+
+      html = replaceFontWithRegex(html)
+
+      html
     }
+  }
+
+  private def replaceFontWithRegex(s: String) = {
+    var re = s
+    val fontRegex = new Regex("\\[font=([^\\]]+)\\]", "font")
+    re = fontRegex replaceAllIn (re, m => "<font face=\"" + m.group("font") + "\">") replace ("[/font]", "</font>")
+
+    val colorRegex = new Regex("\\[color=([^\\]]+)\\]", "color")
+    re = colorRegex replaceAllIn (re, m => "<font color=\"" + m.group("color") + "\">") replace ("[/color]", "</font>")
+
+    val sizeRegex = new Regex("\\[size=([^\\]]+)\\]", "size")
+    re = sizeRegex replaceAllIn (re, m => "<font size=\"" + m.group("size") + "\">") replace ("[/size]", "</font>")
+    re
   }
   
   implicit def longUserExists(id: Long) = new {
