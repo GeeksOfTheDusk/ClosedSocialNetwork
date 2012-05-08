@@ -35,7 +35,7 @@ package object etc {
 
       html = replaceFontWithRegex(html)
 
-      html
+      html.replace("\n", "<br/>")
     }
   }
 
