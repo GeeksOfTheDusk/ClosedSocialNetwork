@@ -26,15 +26,15 @@ object PrivateMessage {
   }
   
   def allWritten(id: Long) = DB.withConnection { implicit c =>
-      SQL("select * from privatemessage where authorid = {id}").on('id -> id).as(pm *)
+      SQL("select * from PrivateMessage where authorid = {id}").on('id -> id).as(pm *)
   }
 
   def allReceived(id: Long) = DB.withConnection { implicit c =>
-    SQL("select * from privatemessage where receiverID = {id}").on('id -> id).as(pm *)
+    SQL("select * from PrivateMessage where receiverID = {id}").on('id -> id).as(pm *)
   }
 
   def findById(id: Long) = DB.withConnection { implicit c =>
-    SQL("select * from privatemessage where id = {id}").on('id -> id).as(pm *)
+    SQL("select * from PrivateMessage where id = {id}").on('id -> id).as(pm *)
   }
 
   def create(pm: PrivateMessage) {
@@ -50,14 +50,14 @@ object PrivateMessage {
 
   def delete(id: Long) {
     DB.withConnection { implicit c =>
-      SQL("delete from privatemessage where id = {id}").on('id -> id).executeUpdate()
+      SQL("delete from PrivateMessage where id = {id}").on('id -> id).executeUpdate()
     }
   }
 
   def update(pm: PrivateMessage) {
     DB.withConnection { implicit c =>
       SQL("""
-          update privatemessage
+          update PrivateMessage
           set readat={readat}
           where id={id}
           """).on('readat -> pm.readAt, 'id -> pm.id).executeUpdate()
@@ -65,6 +65,6 @@ object PrivateMessage {
   }
 
   def count(id: Long) = DB.withConnection { implicit c =>
-    SQL("select count(*) from privatemessage where id = {id}").on('id -> id).as(scalar[Long].single)
+    SQL("select count(*) from PrivateMessage where id = {id}").on('id -> id).as(scalar[Long].single)
   }
 }
