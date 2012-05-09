@@ -68,6 +68,7 @@ function refreshMessagelist() {
 
 // init function when dom is ready
 $(function() {
+  $('.nav-tabs').button();
   $(ready).each(function(key) {
     window[ready[key]]();
   });

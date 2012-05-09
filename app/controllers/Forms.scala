@@ -58,7 +58,6 @@ object Forms {
         "new" -> text,
         "old" -> text
       ).verifying(Messages("old_password_is_missing"), value =>{
-        println(value)
         if(!value._2.isEmpty) {
           val oldPw = value._3
           val user = User.findBy("username" -> value._1).head
@@ -67,6 +66,7 @@ object Forms {
           true
         }
       }),
+      "gender" -> nonEmptyText,
       "bday" -> date,
       "about" -> text,
       "anonym" -> boolean,

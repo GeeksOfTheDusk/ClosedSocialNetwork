@@ -1,4 +1,4 @@
-@(userForm: Form[((String, String, String), java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit flash: Flash, session: Session)
+@(userForm: Form[((String, String, String), String, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
 @import etc.Constructors._
 
@@ -16,6 +16,12 @@
             '_label -> "Old Password: ",
             '_help -> "Only needed when changing passwords.",
             '_error -> userForm.error("user"),'class -> "input-xlarge"
+        )
+
+        @inputRadioGroup(
+            userForm("gender"),
+            options = options("m"->"Male","f"->"Female", "q" -> "Queer", "n" -> "N/A"),
+            '_label -> "Gender"
         )
 
         @inputDate(

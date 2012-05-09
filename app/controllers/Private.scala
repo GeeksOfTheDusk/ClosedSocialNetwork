@@ -126,7 +126,7 @@ object Private extends Controller with Secure {
   }
 
   def editUser = Authenticated { implicit request =>
-    val data = ((request.user.username, "", ""), request.user.dateOfBirth,
+    val data = ((request.user.username, "", ""), request.user.sex, request.user.dateOfBirth,
       request.user.description, request.user.anonym, request.user.isAdmin)
     val filledForm = Forms.editUserForm.fill(data)
     Ok(html.Private.editUserForm(filledForm, request.user))
@@ -136,12 +136,13 @@ object Private extends Controller with Secure {
     Forms.editUserForm.bindFromRequest.fold(
       errors =>BadRequest(html.Private.editUserForm(errors, request.user)),
       value => {
-        val((_,pw,_),bday, about, anonym, _) = value
+        val((_,pw,_), gender, bday, about, anonym, _) = value
         val user = request.user
         user.hashedPW = if(!pw.isEmpty)Crypto.sign(pw) else user.hashedPW
         user.dateOfBirth = bday
         user.description = about
         user.anonym = anonym
+        user.sex = gender
         User.update(user)
         Redirect(routes.Private.me())
       }
