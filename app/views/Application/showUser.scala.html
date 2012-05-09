@@ -1,28 +1,9 @@
 @(user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
+@import etc._
 @main() {
-    <h1>Profile of @user.username</h1>
-    
-    <div>
-        Gender: @{user.sex match {
-            case "q" => "Queer"
-            case "m" => "Male"
-            case "f" => "Female"
-            case "n" => "No gender specified"
-        }}
-    </div>
 
-    <div>
-        Born on @user.dateOfBirth
-    </div>
-
-    <div>
-        About: @user.description
-    </div>
-
-    <div>
-        Registered on @user.registrationDate
-    </div>
+    @userInfo(user)
     
     @if(session.get("user") != None) {
 
