@@ -34,6 +34,7 @@ package object etc {
         .replace("[center]", "<center>").replace("[/center]", "</center>")
 
       html = replaceFontWithRegex(html)
+      html = replaceUrlAndImg(html)
 
       html.replace("\n", "<br/>")
     }
@@ -49,6 +50,29 @@ package object etc {
 
     val sizeRegex = new Regex("\\[size=([^\\]]+)\\]", "size")
     re = sizeRegex replaceAllIn (re, m => "<font size=\"" + m.group("size") + "\">") replace ("[/size]", "</font>")
+    re
+  }
+
+  private def replaceUrlAndImg(s: String) = {
+    var re = s
+    val imageRegex = new Regex("\\[img\\](.*?)\\[/img\\]", "image")
+    val urlRegex = new Regex("\\[url=?(.*?)\\](.*?)\\[/url\\]", "url", "text")
+    re = imageRegex replaceAllIn (re , m => "<img source=\"" + m.group("image") + "\" alt=\"An image\"/>")
+    re = urlRegex replaceAllIn (re, m => {
+        var prot = "http://"
+        if(!m.group("url").isEmpty) {
+          if(m.group("url").startsWith("http://"))
+            prot = ""
+          "<a href=\"" + prot + m.group("url") + "\">" + m.group("text") + "</a>"
+        }
+        else {
+          if(m.group("text").startsWith("http://"))
+            prot = ""
+          "<a href=\"" + prot + m.group("text") + "\">" + m.group("text") + "</a>"
+        }
+      }
+    )
+
     re
   }
   
