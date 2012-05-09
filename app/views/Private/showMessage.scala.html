@@ -11,7 +11,7 @@
             NA
         }
     } on @message.writtenAt.normalize
-    <div class="well" style="width:20%;margin-top:2%;">
+    <div class="well" style="margin-top:2%;">
         @Html(message.content.escape)
     </div>
     @if(message.authorID.?) {

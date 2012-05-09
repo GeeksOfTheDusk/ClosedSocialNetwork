@@ -35,6 +35,7 @@ package object etc {
 
       html = replaceFontWithRegex(html)
       html = replaceUrlAndImg(html)
+      html = replaceList(html)
 
       html.replace("\n", "<br/>")
     }
@@ -72,8 +73,27 @@ package object etc {
         }
       }
     )
-
     re
+  }
+  
+  private def replaceList(s: String) = {
+    var re = s
+    val listRegex = new Regex("""(?s)\[list=?([1ia])?\](.*?)\[/list\]""", "opt", "content")
+    re = listRegex replaceAllIn (re, { m =>
+      if( m.group("opt")== null || m.group("opt").isEmpty) {
+        "<ul>" + m.group("content") + "</ul>"
+      } else {
+        if(m.group("opt") == "1") {
+          "<ol>" + m.group("content") + "</ol>"
+        } else {
+          "<ol type=\"" + m.group("opt") + "\">" + m.group("content") + "</ol>"
+        }
+      }
+    })
+    
+    val bulletRegex = new Regex("""\[\*\](.+)""", "content")
+
+    bulletRegex replaceAllIn (re, m => "<li>" + m.group("content") + "</li>")
   }
   
   implicit def longUserExists(id: Long) = new {
