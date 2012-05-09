@@ -193,7 +193,7 @@ object Private extends Controller with Secure {
     }
 
     var json = new StringBuilder
-    json.append("{\n    \"marked\":[")
+    json.append("{\"following\":[")
     for(u <- markedUsers) {
       json.append("""
         {
@@ -206,8 +206,24 @@ object Private extends Controller with Secure {
       }
     }
 
-    json.append("\n    ]\n    \"markedByOthers\": " + !request.user.getAllMarking.isEmpty + "\n}")
+    json.append("],\n\"followedBy\":[")
+    
+    val markingUser = request.user.getAllMarking map  { id =>
+      User.findBy("id" -> id.toString).head
+    }
 
+    for(u <- markingUser) {
+      json.append("""
+        {
+          "id": """ + u.id + """,
+          "username": """" + u.username + """"
+        }""")
+
+      if(u != markingUser.last) {
+        json.append(",")
+      }
+    }
+    json.append("]}")
     Ok(json.toString).as("application/json")
   }
 
