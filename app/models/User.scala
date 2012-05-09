@@ -75,6 +75,15 @@ object User {
     PrivateMessage.allReceived(id).foreach { m =>
       PrivateMessage.delete(m.id)
     }
+    
+    for(f <- Relationship.findAllTo(id)) {
+      Relationship.delete(f.id)
+    }
+
+    for(f <- Relationship.findAllFrom(id)) {
+      Relationship.delete(f.id)
+    }
+    
     DB.withConnection { implicit c =>
       SQL("delete from User where id = {id}")
         .on('id -> id)
