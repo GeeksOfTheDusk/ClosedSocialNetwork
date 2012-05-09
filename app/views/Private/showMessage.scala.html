@@ -6,7 +6,7 @@
     from
     @if(message.authorID > 0) {
         @if(message.authorID.?) {
-            <a href="/users/@(models.User.findBy("id" -> message.authorID.toString))">@(models.User.findBy("id" -> message.authorID.toString).head.username)</a>
+            <a href="/users/@(models.User.findBy("id" -> message.authorID.toString).head.username)">@(models.User.findBy("id" -> message.authorID.toString).head.username)</a>
         } else {
             NA
         }
