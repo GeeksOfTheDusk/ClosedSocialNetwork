@@ -1,7 +1,6 @@
 package controllers
 
 import play.api.mvc._
-import java.text.SimpleDateFormat
 import models.{InvitationKey, User}
 import play.api.libs.Crypto
 import play.api.i18n.Messages
@@ -9,11 +8,6 @@ import play.api.i18n.Messages
 object Application extends Controller  {
 
   import views._
-
-  implicit def stringToDate(s: String) = {
-    val df = new SimpleDateFormat("yyyy-MM-dd");
-    df.parse(s);
-  }
 
   def index = Action { implicit request =>
     Ok(html.Application.index(request.flash, request.session))

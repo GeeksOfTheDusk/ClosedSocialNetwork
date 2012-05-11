@@ -1,14 +1,31 @@
 package models
 
 import java.util.Date
+import etc._
 import anorm._
 import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
+import com.twitter.json.{Json, JsonSerializable}
 
 case class PrivateMessage(id: Long = 0,
-                          authorID: Long, receiverID: Long, var title: Option[String] = None,
-                          var content: String, writtenAt: Date = new Date, var readAt: Option[Date] = None)
+                          authorID: Long,
+                          receiverID: Long,
+                          var title: Option[String] = None,
+                          var content: String,
+                          writtenAt: Date = new Date,
+                          var readAt: Option[Date] = None) extends JsonSerializable {
+  def toJson() = {
+    val map = Map(
+      "id" -> id,
+      "author" ->  User.findBy("id" -> authorID.toString).^?.map(_.username).getOrElse("NA"),
+      "authorID" -> (if(authorID.?) authorID else -1),
+      "title" -> title.getOrElse("No Title"),
+      "writtenAt" -> writtenAt,
+      "new" -> (if(readAt == None){true}else{false}))
+    Json.build(map).toString
+  }
+}
 
 object PrivateMessage {
   

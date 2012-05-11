@@ -6,6 +6,7 @@ import java.util.Date
 import play.api.libs.Crypto
 import etc._
 import play.api.i18n.Messages
+import com.twitter.json.Json
 
 object Private extends Controller with Secure {
 
@@ -29,27 +30,8 @@ object Private extends Controller with Secure {
   def listPmAsJSON(count: Int) = Authenticated { implicit request =>
     val messages = PrivateMessage.allReceived(request.user.id).sortWith(_.writtenAt.getTime > _.writtenAt.getTime)
       .slice(0, count)
-    var json = new StringBuilder
-    json.append("{\n    \"messages\":[")
-    for(message <- messages) {
-      json.append("""
-        {
-          "id": """ + message.id + """,
-          "author": """" + User.findBy("id" -> message.authorID.toString).^?.map(_.username).getOrElse("NA") + """",
-          "authorID": """ + (if(message.authorID.?) message.authorID else -1) + """,
-          "title": """" + message.title.get + """",
-          "writtenAt": """" + message.writtenAt + """",
-          "new": """ + {if(message.readAt == None){"true"}else{"false"}} + """
-        }""")
-
-      if(message != messages.last) {
-        json.append(",")
-      }
-    }
-
-    json.append("\n    ]\n}")
     
-    Ok(json.toString).as("application/json")
+    Ok(Json.build(Map("messages" -> messages)).toString).as("application/json")
   }
   
   def showPm(id: Long) = Authenticated { implicit request =>
@@ -192,40 +174,12 @@ object Private extends Controller with Secure {
     val markedUsers = request.user.getAllMarked map { id =>
       User.findBy("id" -> id.toString).head
     }
-
-    var json = new StringBuilder
-    json.append("{\"following\":[")
-    for(u <- markedUsers) {
-      json.append("""
-        {
-          "id": """ + u.id + """,
-          "username": """" + u.username + """"
-        }""")
-
-      if(u != markedUsers.last) {
-        json.append(",")
-      }
-    }
-
-    json.append("],\n\"followedBy\":[")
     
     val markingUser = request.user.getAllMarking map  { id =>
       User.findBy("id" -> id.toString).head
     }
-
-    for(u <- markingUser) {
-      json.append("""
-        {
-          "id": """ + u.id + """,
-          "username": """" + u.username + """"
-        }""")
-
-      if(u != markingUser.last) {
-        json.append(",")
-      }
-    }
-    json.append("]}")
-    Ok(json.toString).as("application/json")
+    
+    Ok(Json.build(Map("following" -> markedUsers, "followedBy" -> markingUser)).toString).as("application/json")
   }
 
   def deleteProfile = Authenticated { implicit request =>

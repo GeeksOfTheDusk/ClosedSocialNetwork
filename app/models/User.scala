@@ -5,6 +5,7 @@ import anorm._
 import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
+import com.twitter.json.{Json, JsonSerializable}
 
 case class User(var id: Long = 0,
                 var username: String,
@@ -16,7 +17,18 @@ case class User(var id: Long = 0,
                 var invitedBy: Long = 0,
                 var registrationDate: Date = new Date,
                 var lastLogin: Date = new Date,
-                var isAdmin: Boolean = false) {
+                var isAdmin: Boolean = false) extends JsonSerializable {
+  def toJson() = {
+    Json.build(Map(
+      "id" -> id,
+      "username" -> username,
+      "gender" -> sex,
+      "birthDate" -> dateOfBirth,
+      "about" -> description,
+      "invitedBy" -> invitedBy
+    )).toString
+  }
+  
   def getAllMarked = {
     Relationship.findAllFrom(id) map {_.to_id}
   }
