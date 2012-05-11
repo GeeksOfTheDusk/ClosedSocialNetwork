@@ -14,7 +14,7 @@ object ApplicationBuild extends Build {
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
-      resolvers += Resolver.url("CSN Modules Repository", url("http://repositories.coding-minds.com/modules/releases/"))(Resolver.ivyStylePatterns)
+      resolvers += "CSN Modules Repository" at "http://repositories.coding-minds.com/modules/releases/" 
     )
 
 }
