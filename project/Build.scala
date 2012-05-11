@@ -8,12 +8,13 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
+      "mysql" % "mysql-connector-java" % "5.1.20",
       "csn_bbcodeparser" % "csn_bbcodeparser_2.9.1" % "1.0-SNAPSHOT",
       "twitter_bootstrap_module" % "twitter_bootstrap_module_2.9.1" % "1.0-SNAPSHOT"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
-      resolvers += Resolver.url("CSN Modules Repository", url("http://frogurth.github.com/releases/"))(Resolver.ivyStylePatterns)
+      resolvers += Resolver.url("CSN Modules Repository", url("http://repositories.coding-minds.com/modules/releases/"))(Resolver.ivyStylePatterns)
     )
 
 }
