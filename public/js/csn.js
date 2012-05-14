@@ -1,4 +1,13 @@
 // dashboard
+function setCounterToFollowing() {
+    $.getJSON('/users/me/marking.json', function(data){
+        $('#following').empty();
+        $('#following').append('(' + data.following.length + ')');
+        $('#followed').empty();
+        $('#followed').append('(' + data.followedBy.length + ')');
+    }).complete(setTimeout(setCounterToFollowing, 15000));
+  return true;
+}
 function refreshMessagelist() {
   var count = 6;
   $.getJSON('/users/me/pmessages.json', { count: count }, function(data) {
@@ -44,7 +53,7 @@ function refreshMessagelist() {
         .text(message.title)
       )
       .append(
-        ' from '
+        ' ' + data.from + ' '
       )
       .append(user)
       
@@ -68,7 +77,6 @@ function refreshMessagelist() {
 
 // init function when dom is ready
 $(function() {
-  $('.nav-tabs').button();
   $(ready).each(function(key) {
     window[ready[key]]();
   });

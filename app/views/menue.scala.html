@@ -1,5 +1,8 @@
 @(session: Session)
 @import play.api.i18n.Messages
+<script>
+    ready.push('setCounterToFollowing');
+</script>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -44,10 +47,12 @@
                     <li><a href="/users/me/marking">
                           <i class="icon-eye-open"></i>
                           @Messages("menu.following")
+                          <span id="following"></span>
                     </a></li>
                     <li><a href="/users/me/markedByOthers">
                           <i class="icon-star"></i>
                           @Messages("menu.followed")
+                          <span id="followed"></span>
                     </a></li>
               		<li class="divider"></li>
               		<li><a href="/logout">

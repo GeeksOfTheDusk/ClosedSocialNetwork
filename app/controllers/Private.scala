@@ -31,7 +31,7 @@ object Private extends Controller with Secure {
     val messages = PrivateMessage.allReceived(request.user.id).sortWith(_.writtenAt.getTime > _.writtenAt.getTime)
       .slice(0, count)
     
-    Ok(Json.build(Map("messages" -> messages)).toString).as("application/json")
+    Ok(Json.build(Map("messages" -> messages, "from" -> Messages("from"))).toString).as("application/json")
   }
   
   def showPm(id: Long) = Authenticated { implicit request =>
