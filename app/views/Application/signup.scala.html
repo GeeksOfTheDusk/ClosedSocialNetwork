@@ -1,34 +1,34 @@
 @(signUpForm: Form[(String, (String, String), String)])(implicit flash: Flash, session: Session)
 @import helper._
 @import etc.Constructors._
+@import play.api.i18n.Messages
 @main() {
     @form(routes.Application.newUser) {
         @inputText(
             signUpForm("username"),
-            '_label -> "Username: ",
-            '_help -> "Choose a valid username.",
+            '_label -> Messages("username"),
+            '_help -> Messages("username.desc"),
             '_error -> signUpForm.error("username"),
 'class -> "input-xlarge"
         )
 
         @inputPassword(
             signUpForm("password.main"),
-            '_label -> "Password: ",
+            '_label -> Messages("password"),
 'class -> "input-xlarge"
         )
 
         @inputPassword(
             signUpForm("password.confirm"),
-            '_label -> "Repeat password",
-            '_help -> "Please repeat your password again.",
+            '_label -> Messages("password.repead"),
             '_error -> signUpForm.error("password"),'class -> "input-xlarge"
         )
 
         @inputText(
             signUpForm("registrationkey"),
-            '_label -> "Registration key: ",
+            '_label -> Messages("reg.key"),
             '_error -> signUpForm.error("registrationkey"),'class -> "input-xlarge"
         )
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <button type="submit" class="btn btn-primary">@Messages("sign_up")</button>
     }
 }

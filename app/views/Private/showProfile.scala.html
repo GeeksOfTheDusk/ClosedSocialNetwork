@@ -1,5 +1,6 @@
 @(user: models.User, keys: List[models.InvitationKey])(implicit session:Session, flash: Flash)
 @import etc._
+@import play.api.i18n.Messages
 @main() {
     @userInfo(user)
     @for(key <- keys) {
@@ -8,19 +9,19 @@
     @if(keys.length < 3) {
         @helper.form(routes.Private.createKey()){<button class="btn btn-mini btn-inverse" type="submit" style="margin-top:2%;">
             <i class="icon-lock icon-white"></i>
-            Generate key
+            @Messages("form.new_key")
         </button>}
     }
     <a class="btn btn-primary btn-small" href="/users/me/edit">
         <i class="icon-edit icon-white"></i>
-        Edit profile
+        @Messages("edit_profile")
     </a>
 
     <div style="margin-top:3%;">
         @helper.form(routes.Private.deleteProfile()){
             <button class="btn btn-mini btn-danger" type="submit" style="margin-top:2%;">
                 <i class="icon-ban-circle icon-white"></i>
-                Delete profile
+                @Messages("delete")
             </button>
         }
     </div>

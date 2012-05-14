@@ -1,6 +1,7 @@
 @(loginForm: Form[(String, String)])(implicit flash: Flash, session: Session)
 @import helper._
 @import etc.Constructors._
+@import play.api.i18n.Messages
 
 @main() {
     @form(routes.Application.auth) {
@@ -11,15 +12,14 @@
         }
         @inputText(
             loginForm("username"),
-            '_label -> "Username: ",
-            '_help -> "Choose a valid username",
+            '_label -> Messages("username") ,
             'class -> "input-xlarge"
         )
         @inputPassword(
             loginForm("password"),
-            '_label -> "Password: ",
+            '_label -> Messages("password") ,
             'class -> "input-xlarge"
         )
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">@Messages("login")</button>
     }
 }

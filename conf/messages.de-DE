@@ -1,25 +1,65 @@
 # German (de)
 #
-login=Login
+from=von
+# Views
+## Menue
 userlist=Benutzerliste
-signup=Registrierung
-username=Benutzername
-password=Passwort
-repeat_password=Passwort wiederholen
-signin=Anmelden
-submit=Absenden
-writepm=Private Nachricht senden
-showpms=Private Nachrichten anzeigen
+contribute=Mitwirken
+menu.profile=Mein Konto
+private_messages=Private Nachrichten
+menu.following=Ich folge
+menu.followed=Mich folgen
+logout=Abmelden
+login=Anmelden
+sign_up_now=Jetzt regestrieren
+search=Suchen
+write_one=Eine schreiben
+
+## Userinfo
+info.profile=Konto
+of=von
 gender=Geschlecht
 male=Männlich
 female=Weiblich
 queer=Queer
-birthday=Geburtstag
-age=Alter
-anonym=Anonym
-msg_from_at=Von %s um %s
-showprofile=Zeige Profil
-logout=Logout
+gender.na=Keine Angaben
+born=Geboren
+registered=Regestriert
+since=seit
+on=am
+invited=Eingeladen
+by=von
+about=Beschreibung
+
+### Other User
+not_follow=Nicht folgen
+follow=Folgen
+write_message=Nachricht schreiben
+
+### Me
+form.new_key=Neuer Regestrierungsschlüssel
+edit_profile=Konto bearbeiten
+delete=Konto löschen
+
+## Forms
+username=Benutzername:
+username.desc=Wählen Sie einen gültigen Benutzernamen.
+password=Kennwort:
+password.repead=Kennwort wiederholen:
+reg.key=Registrierungsschlüssel:
+sign_up=Regestrieren
+reply=Antworten
+title=Titel:
+message=Nachricht:
+send=Senden
+to=An:
+editing={0} bearbeiten
+new_password=Neues Kennwort:
+old_password=Altes Kennwort:
+old_password.desc=Nur erforderlich wenn ein neues Kennwort gesezt werden soll.
+date_of_birth=Geboren am:
+anonym=Anonym sein?
+save=Speichern
 
 # Flash messages
 login_successful=Login erfolgreich.

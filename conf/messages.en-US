@@ -1,25 +1,61 @@
 # Default (en)
 #
-login=Login
-userlist=Userlist
-signup=Sign Up
-username=Username
-password=Password
-repeat_password=Repeat Password
-signin=Sign In
-submit=Submit
-writepm=Write a private message
-showpms=Show private messages
+
+from=from
+# Views
+## Menue
+userlist=USerlist
+contribute=Contribute
+menu.profile=My profile
+private_messages=Private messages
+menu.following=Following
+menu.followed=I'm followed
+logout=logout
+login=login
+sign_up_now=Sign up now
+search=Search
+write_one=Write one
+
+## Userinfo
+info.profile=Profile
+of=of
 gender=Gender
-male=male
-female=female
-queer=queer
-birthday=Birthday
-age=Age
-anonym=Anonym
-msg_from_at=From %s at %s
-showprofile=Show profile
-logout=Logout
+male=Male
+female=Female
+queer=Queer
+gender.na=Nothing Specified
+born=Born
+registered=Registered
+since=since
+on=on
+invited=Invited
+by=by
+about=About
+
+### Other User
+not_follow=Unfollow
+follow=Follow
+write_message=Write message
+
+## Forms
+username=Username:
+username.desc=Choose a valid username.
+password=Password:
+password.repead=Repead password:
+reg.key=Registrationkey:
+sign_up=Sign up
+reply=Reply
+title=Title:
+message=Message:
+send=Send
+to=to:
+editing=Editing {0}
+new_password=New password:
+old_password=Old password:
+old_password.desc=Only required if you want to set a new password.
+date_of_birth=Date of birth:
+anonym=Want to ba anonym?
+save=Save
 
 # Flash messages
 login_successful=Login successful.

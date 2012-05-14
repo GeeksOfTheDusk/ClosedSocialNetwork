@@ -1,10 +1,15 @@
 @(elements: helper.FieldElements)
 
 <div class="control-group @if(elements.hasErrors) {error}">
-    <label class="control-label" for="@elements.id">@elements.label</label>
+    <label class="control-label" for="@elements.id">
+        @if(elements.infos.contains("Required")) {
+            *
+        }
+        @elements.label
+    </label>
     <div class="controls">
         @elements.input
         <span class="help-inline">@elements.errors.mkString(", ")</span>
-        <span class="help-block">@elements.infos.mkString(", ")</span>
+        <span class="help-block">@elements.infos.filter(_!="Required").mkString(", ")</span>
     </div>
 </div>

@@ -1,5 +1,5 @@
 @(session: Session)
-
+@import play.api.i18n.Messages
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -17,12 +17,12 @@
            		<li class="divider-vertical"></li>
   }
 }
-              <li><a href="/users">Userlist</a></li>
-              <li><a href="https://github.com/GeeksOfTheDusk/ClosedSocialNetwork">Contribute</a></li>
+              <li><a href="/users">@Messages("userlist")</a></li>
+              <li><a href="https://github.com/GeeksOfTheDusk/ClosedSocialNetwork">@Messages("contribute")</a></li>
             </ul>
           </div><!--/.nav-collapse -->
           <form class="navbar-search pull-left">
-            <input type="text" class="search-query" placeholder="Search" />
+            <input type="text" class="search-query" placeholder="@Messages("search")" />
           </form>
 @if(session.get("user") != None) {
           <div class="nav-collapse pull-right">
@@ -35,24 +35,24 @@
               	<ul class="dropdown-menu pull-right">
               		<li><a href="/users/me">
                           <i class="icon-user"></i>
-                          Profile
+                          @Messages("menu.profile")
                     </a></li>
               		<li><a href="/users/me/pmessages">
                           <i class="icon-envelope"></i>
-                          Private Messages
+                          @Messages("private_messages")
                     </a></li>
                     <li><a href="/users/me/marking">
                           <i class="icon-eye-open"></i>
-                          Following
+                          @Messages("menu.following")
                     </a></li>
                     <li><a href="/users/me/markedByOthers">
                           <i class="icon-star"></i>
-                          Followed
+                          @Messages("menu.followed")
                     </a></li>
               		<li class="divider"></li>
               		<li><a href="/logout">
                           <i class="icon-off"></i>
-                          Logout
+                          @Messages("logout")
                     </a></li>
               	</ul>
              </li>
@@ -61,7 +61,7 @@
 }else {
           <div class="nav-collapse pull-right">
             <ul class="nav">
-              <li><a href="/login">Login</a></li>
+              <li><a href="/login">@Messages("login")</a></li>
             </ul>
           </div><!--/.nav-collapse -->
 }

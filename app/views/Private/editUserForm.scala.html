@@ -1,45 +1,49 @@
 @(userForm: Form[((String, String, String), String, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
 @import etc.Constructors._
-
+@import play.api.i18n.Messages
 @main() {
     @form(routes.Private.saveUser()){
-        <h1>Editing @user.username</h1>
+        <h1>@Messages("editing", user.username)</h1>
         <input type="hidden" name="user.username" value="@user.username" />
         @inputPassword(
             userForm("user.new"),
-            '_label -> "New Password: ",'class -> "input-xlarge"
+            '_label -> Messages("new_password"),
+            'class -> "input-xlarge"
         )
 
         @inputPassword(
             userForm("user.old"),
-            '_label -> "Old Password: ",
-            '_help -> "Only needed when changing passwords.",
-            '_error -> userForm.error("user"),'class -> "input-xlarge"
+            '_label -> Messages("old_password"),
+            '_help -> Messages("old_password.desc"),
+            '_error -> userForm.error("user"),
+            'class -> "input-xlarge"
         )
 
         @inputRadioGroup(
             userForm("gender"),
-            options = options("m"->"Male","f"->"Female", "q" -> "Queer", "n" -> "N/A"),
-            '_label -> "Gender"
+            options = options("m"->Messages("male"),"f"->Messages("female"), "q" -> Messages("queer"),
+                        "n" -> Messages("gender.na")),
+            '_label -> Messages("gender")
         )
 
         @inputDate(
             userForm("bday"),
-            '_label -> "Date of Birth: ",'class -> "input-xlarge"
+            '_label -> Messages("date_of_birth"),
+            'class -> "input-xlarge"
         )
 
         @textarea(
             userForm("about"),
-            '_label -> "About you: ",
+            '_label -> Messages("about"),
             'rows -> 10,'class -> "input-xlarge"
         )
 
         @checkbox(
             userForm("anonym"),
-            '_label -> "Anonym?",
+            '_label -> Messages("anonym"),
             '_help -> "",'class -> "input-xlarge"
         )
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">@Messages("save")</button>
     }
 }

@@ -1,6 +1,7 @@
 @(user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
 @import etc._
+@import play.api.i18n.Messages
 @main() {
 
     @userInfo(user)
@@ -11,21 +12,21 @@
             @form(routes.Private.unmark(user.id)) {
                 <button class="btn btn-inverse btn-small" type="submit">
                     <i class="icon-star icon-white"></i>
-                    unmark
+                    @Messages("not_follow")
                 </button>
             }
         } else {
             @form(routes.Private.mark(user.id)) {
                 <button class="btn btn-inverse btn-small" type="submit">
                     <i class="icon-star icon-white-empty"></i>
-                    mark
+                    @Messages("follow")
                 </button>
             }
         }
 
         <a class="btn btn-success btn-small" href="/users/@user.username/pmessages/new">
             <i class="icon-envelope icon-white"></i>
-            Write message
+            @Messages("write_message")
         </a>
     }
 }

@@ -1,5 +1,6 @@
 @(pms: Long)(implicit request: play.api.mvc.Request[AnyContent], flash: Flash, session: Session)
 @import play.api.Play.current
+@import play.api.i18n.Messages
 @main() {
       <script>
         ready.push('refreshMessagelist');
@@ -13,9 +14,9 @@
 
       <div class="row">
         <div class="span4" id="pms">
-          <h2>Private Messages</h2>
+          <h2>@Messages("private_messages")</h2>
           <ul></ul>
-          <p><a class="btn" href="/users/pmessages/new">Write one &raquo;</a></p>
+          <p><a class="btn" href="/users/pmessages/new">@Messages("write_one") &raquo;</a></p>
         </div>
       </div>
 }
