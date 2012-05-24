@@ -51,7 +51,8 @@ object Application extends Controller  {
     Forms.loginForm.bindFromRequest.fold (
       formWithErrors => BadRequest(html.Application.login(formWithErrors)),
       value => { val (username, _) = value
-        Redirect(routes.Private.index()).withSession("user" -> username).flashing("success" -> Messages("login_successful"))
+        val user = User.findBy("username" -> username).head
+        Redirect(routes.Private.index()).withSession("user" -> username, "id" -> user.id.toString, "userST" -> username).flashing("success" -> Messages("login_successful"))
       }
     )
   }

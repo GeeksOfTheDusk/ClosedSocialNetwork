@@ -191,6 +191,10 @@ object Private extends Controller with Secure {
     PrivateMessage.delete(id)
     Redirect(routes.Private.listPm()).flashing("success" -> Messages("pm_deleted"))
   }
+  
+  def newEntry = Authenticated { implicit request =>
+    Ok(html.Private.newBlogEntry(BlogForms.entryForm))
+  }
 }
 
 

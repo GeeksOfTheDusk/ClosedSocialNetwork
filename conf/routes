@@ -41,5 +41,12 @@ POST    /mark                                   controllers.Private.mark(id: Lon
 POST    /unmark                                 controllers.Private.unmark(id: Long)
 POST    /deleteProfile                          controllers.Private.deleteProfile
 
+# Blogengine
+GET     /blog/entry/:id             controllers.BlogEngine.showEntry(id: Long)
+GET     /blog/entry/new/            controllers.Private.newEntry
+
+POST    /entry/:id/newComment       controllers.BlogEngine.newComment(id: Long)
+POST    /blog/entry/new/            controllers.BlogEngine.createEntry
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                           controllers.Assets.at(path="/public", file)

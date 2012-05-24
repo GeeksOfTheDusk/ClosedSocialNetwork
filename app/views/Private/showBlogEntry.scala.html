@@ -1,0 +1,5 @@
+@(f: Form[String], e: models.Blogentry)(implicit flash: Flash, session: Session)
+
+@main() {
+    @views.html.blogengine.showEntryTag(e,f)
+}

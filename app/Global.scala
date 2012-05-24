@@ -30,6 +30,22 @@ object Global extends GlobalSettings {
       ))
 
       PrivateMessage.create(PrivateMessage(title = Some("test"), authorID = 2, receiverID = 1, content = "hello"))
+      Blogentry.create(Blogentry(creatorID = 1, creatorST = "fogurth", title = "Testentry",
+        content = "Hello, this is a testentry.", commentsAllowed = true, privacy = 0))
+
+      Blogentry.create(Blogentry(creatorID = 1, creatorST = "fogurth", title = "Testentry 2",
+        content = "Hello, this is the second testentry.", commentsAllowed = false, privacy = 0))
+
+      Blogentry.create(Blogentry(creatorID = 3, creatorST = "geek", title = "Testentry",
+        content = "Hello, this is a testentry.", commentsAllowed = true, privacy = 0))
+    }
+
+    controllers.BlogEngine.commentFormToHtml = { (f, e, r) =>
+      views.html.Private.showBlogEntry(f,e)(r.flash, r.session)
+    }
+
+    controllers.BlogEngine.entryFormToHtml = { (f, r) =>
+      views.html.Private.newBlogEntry(f)(r.flash, r.session)
     }
   }
 }

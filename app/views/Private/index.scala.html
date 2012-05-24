@@ -6,11 +6,8 @@
         ready.push('refreshMessagelist');
       </script>
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h3>Hello @request.session.get("user").get</h3>
-        
-        <p>Lorem ipsum ... and so on</p>
-      </div>
+
+      @blogengine.showBlogEntries(session.get("id").get.toLong)
 
       <div class="row">
         <div class="span4" id="pms">
@@ -19,4 +16,5 @@
           <p><a class="btn" href="/users/pmessages/new">@Messages("write_one") &raquo;</a></p>
         </div>
       </div>
+
 }
