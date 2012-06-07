@@ -34,9 +34,5 @@ package object etc {
       }
     }
   }
-  
-  object Constructors {
-    implicit val twitterConstructor = FieldConstructor(html.twitterFieldConstructor.f)
-  }
 }
 

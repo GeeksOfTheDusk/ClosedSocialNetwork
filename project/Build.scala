@@ -11,7 +11,7 @@ object ApplicationBuild extends Build {
       "mysql" % "mysql-connector-java" % "5.1.20",
       "csn_bbcodeparser" % "csn_bbcodeparser_2.9.1" % "1.0-SNAPSHOT",
       "twitter_bootstrap_module" % "twitter_bootstrap_module_2.9.1" % "1.0-SNAPSHOT",
-      "csn_mini_blogengine" % "csn_mini_blogengine_2.9.1" % "0.3.0"
+      "csn_mini_blogengine" % "csn_mini_blogengine_2.9.1" % "0.3.0-SNAPSHOT"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(

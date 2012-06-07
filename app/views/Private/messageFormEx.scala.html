@@ -1,6 +1,6 @@
 @(messageForm: Form[(String, String, String)])(implicit flash: Flash, session: Session)
 @import helper._
-@import etc.Constructors._
+@import fieldconstructor.TwitterBootstrapFieldConstructors._
 @import play.api.i18n.Messages
 @main() {
     @form(routes.Private.writeMessage(0)) {

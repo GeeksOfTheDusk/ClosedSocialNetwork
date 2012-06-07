@@ -1,6 +1,6 @@
 @(userform: Form[(java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit session: Session, flash: Flash)
 @import helper._
-@import etc.Constructors._
+@import fieldconstructor.TwitterBootstrapFieldConstructors._
 
 @main(){
     @form(routes.Admin.editUser(user.id)) {

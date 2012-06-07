@@ -1,6 +1,6 @@
 @(userForm: Form[((String, String, String), String, java.util.Date, String, Boolean, Boolean)], user: models.User)(implicit flash: Flash, session: Session)
 @import helper._
-@import etc.Constructors._
+@import fieldconstructor.TwitterBootstrapFieldConstructors._
 @import play.api.i18n.Messages
 @main() {
     @form(routes.Private.saveUser()){
