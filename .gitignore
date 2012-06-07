@@ -12,3 +12,5 @@ modules/
 *.iws
 target/
 .DS_Store
+
+.cache
