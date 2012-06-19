@@ -3,25 +3,26 @@ package controllers
 import play.api.mvc._
 import models._
 import play.api.libs.Crypto
+import jp.t2v.lab.play20.auth.Auth
 
-object Admin extends Controller with Secure {
+object Admin extends Controller with Auth with AuthImpl{
   import views._
   
-  def index = Admin { implicit request =>
+  def index = authorizedAction(Admin) { user => implicit request =>
     val users = User.all
     Ok(html.Admin.index(users))
   }
 
-  def delete(id: Long) = Admin { implicit request =>
+  def delete(id: Long) = authorizedAction(Admin) { user => implicit request =>
     User.delete(id)
     Redirect(routes.Admin.index())
   }
   
-  def newUser = Admin { implicit request =>
+  def newUser = authorizedAction(Admin) { user => implicit request =>
     Ok(html.Admin.newUserForm(Forms.newUserForm))
   }
   
-  def createUser = Admin { implicit request =>
+  def createUser = authorizedAction(Admin) { user => implicit request =>
     Forms.newUserForm.bindFromRequest.fold (
       formsWithErrors => BadRequest(html.Admin.newUserForm(formsWithErrors)),
       value => {
@@ -34,7 +35,7 @@ object Admin extends Controller with Secure {
     )
   }
   
-  def editUserForm(id: Long) = Admin {implicit request =>
+  def editUserForm(id: Long) = authorizedAction(Admin) { user => implicit request =>
     val user = User.findBy("id" -> id.toString).head
     if(user == null) {
       BadRequest(html.Admin.index(User.all))
@@ -46,7 +47,7 @@ object Admin extends Controller with Secure {
     }
   }
 
-  def editUser(id: Long) = Admin { implicit request =>
+  def editUser(id: Long) = authorizedAction(Admin) { user => implicit request =>
     val user = User.findBy("id" -> id.toString).head
     if(user == null) {
       Redirect(routes.Admin.index())
@@ -66,11 +67,11 @@ object Admin extends Controller with Secure {
     }
   }
   
-  def broadcastForm = Admin { implicit request =>
+  def broadcastForm = authorizedAction(Admin) { user => implicit request =>
     Ok(html.Admin.broadcastForm(Forms.messageForm))
   }
 
-  def broadcast = Admin { implicit request =>
+  def broadcast = authorizedAction(Admin) { user => implicit request =>
     Forms.messageForm.bindFromRequest.fold (
       errors => BadRequest(html.Admin.broadcastForm(errors)),
       value => { val (title, content) = value

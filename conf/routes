@@ -10,7 +10,7 @@ GET     /admin/pmessages/all                    controllers.Admin.broadcastForm
 GET     /admin/users/:id                        controllers.Admin.editUserForm(id: Long)
 GET     /public                                 controllers.Application.index
 GET     /login                                  controllers.Application.login
-GET     /logout                                 controllers.Private.logout
+GET     /logout                                 controllers.Application.logout
 GET     /users/:name/pmessages/new              controllers.Private.newMessage(name)
 GET     /users/pmessages/new                    controllers.Private.newMessageEx
 GET     /users/new                              controllers.Application.signup

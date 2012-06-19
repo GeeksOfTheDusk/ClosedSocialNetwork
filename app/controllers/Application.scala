@@ -4,9 +4,11 @@ import play.api.mvc._
 import models.{InvitationKey, User}
 import play.api.libs.Crypto
 import play.api.i18n.Messages
+import jp.t2v.lab.play20.auth.LoginLogout
+import etc._
 
-object Application extends Controller  {
-
+object Application extends Controller with LoginLogoutNeo with AuthImpl {
+ 
   import views._
 
   def index = Action { implicit request =>
@@ -38,7 +40,11 @@ object Application extends Controller  {
           hashedPW = Crypto.sign(password),
           invitedBy = regKey.creator_id))
         InvitationKey.delete(regKey.id)
-        Redirect(routes.Private.index()).withSession("user" -> username).flashing("success" -> Messages("registration_successful"))
+        
+        val user = User.findBy("username" -> username).^?
+        request.session + ("user" -> username) + ("id" -> user.get.id.toString) + ("userST" -> username)
+        gotoLoginSucceeded(user.get.id, username, username)
+          .flashing("success" -> Messages("login_successful"))     
       }
     )
   }
@@ -46,13 +52,19 @@ object Application extends Controller  {
   def login = Action { implicit request =>
     Ok(html.Application.login(Forms.loginForm))
   }
+  
+  def logout = Action { implicit request =>
+    gotoLogoutSucceeded
+  }
 
   def auth = Action { implicit request =>
     Forms.loginForm.bindFromRequest.fold (
       formWithErrors => BadRequest(html.Application.login(formWithErrors)),
       value => { val (username, _) = value
-        val user = User.findBy("username" -> username).head
-        Redirect(routes.Private.index()).withSession("user" -> username, "id" -> user.id.toString, "userST" -> username).flashing("success" -> Messages("login_successful"))
+        val user = User.findBy("username" -> username).^?
+		request.session + ("user" -> username) + ("id" -> user.get.id.toString) + ("userST" -> username)
+        gotoLoginSucceeded(user.get.id, username, username)
+          .flashing("success" -> Messages("login_successful"))
       }
     )
   }
