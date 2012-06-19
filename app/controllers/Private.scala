@@ -14,33 +14,13 @@ object Private extends Controller with Auth with AuthImpl {
 
   import views._
 
-  def index = authorizedAction(BasicUser) { user => implicit request =>
-    val messages = PrivateMessage.allReceived(user.id)
-    val c = messages.filter(_.readAt == None).length
-    Ok(html.Private.index(c))
-  }
-
-  def listPm = authorizedAction(BasicUser) { user => implicit request =>
-    val messages = PrivateMessage.allReceived(user.id)
-    Ok(html.Private.listMessages(messages))
-  }
-
-  def listPmAsJSON(count: Int) = authorizedAction(BasicUser) { user => implicit request =>
-    val messages = PrivateMessage.allReceived(user.id).sortWith(_.writtenAt.getTime > _.writtenAt.getTime)
-      .slice(0, count)
-    
-    Ok(Json.build(Map("messages" -> messages, "from" -> Messages("from"))).toString).as("application/json")
-  }
-  
-  def showPm(id: Long) = authorizedAction(BasicUser) { user => implicit request =>
-    val messages = PrivateMessage.allReceived(user.id).filter(_.id == id )
-    if(messages.isEmpty) {
-      Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
+  def index = optionalUserAction { user => implicit request =>
+    if(user == None) {
+      Redirect(routes.Application.index())
     } else {
-      val m = messages.head
-      m.readAt = Some(new Date)
-      PrivateMessage.update(m)
-      Ok(html.Private.showMessage(m))
+	    val messages = PrivateMessage.allReceived(user.get.id)
+	    val c = messages.filter(_.readAt == None).length
+	    Ok(html.Private.index(c))
     }
   }
   
@@ -48,61 +28,10 @@ object Private extends Controller with Auth with AuthImpl {
     val keys = models.InvitationKey.findByCreator(user.id)
     Ok(html.Private.showProfile(user, keys))
   }
-  
-  def newMessage(name: String) = authorizedAction(BasicUser) { user => implicit request =>
-    val users = User.findBy("username" -> name)
-    if(users.isEmpty)
-      Redirect(routes.Private.index()).flashing("error" -> Messages("user_x_not_found", name))
-    Ok(html.Private.messageForm(Forms.messageForm, users.head.id))
-  }
-
-  def newMessageEx = authorizedAction(BasicUser) { user => implicit request =>
-    Ok(html.Private.messageFormEx(Forms.messageFormEx))
-  }
-  
-  def writeMessage(to: Long) = authorizedAction(BasicUser) { user => implicit request =>
-    if(to == 0) {
-      Forms.messageFormEx.bindFromRequest.fold(
-        formWithErrors => {
-          BadRequest(html.Private.messageFormEx(formWithErrors))
-        },
-        value =>  { val (username, title, content) = value
-          val to = User.findBy("username" -> username).head.id
-          val optionTitle = if(title.isEmpty) Some("No Title") else Some(title)
-          PrivateMessage.create(PrivateMessage(authorID = user.id,
-            receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
-        }
-      )
-    } else {
-      Forms.messageForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(html.Private.messageForm(formWithErrors, to)),
-        value =>  { val (title, content) = value
-          val optionTitle = if(title.isEmpty) Some("No Title") else Some(title)
-          PrivateMessage.create(PrivateMessage(authorID = user.id,
-            receiverID = to,  title = optionTitle, content = content))
-          Redirect(routes.Private.index()).flashing("info" -> Messages("message_send"))
-        }
-      )
-    }
-  }
 
   def createKey = authorizedAction(BasicUser) { user => implicit request =>
     models.InvitationKey.create(InvitationKey(creator_id = user.id))
     Redirect(routes.Private.me()).flashing("info" -> Messages("new_key"))
-  }
-
-  def reply(id: Long) = authorizedAction(BasicUser) { user => implicit request =>
-    val messages = PrivateMessage.allReceived(user.id).filter(_.id == id )
-    if(messages.isEmpty) {
-      Redirect(routes.Private.listPm()).flashing("error" -> Messages("message_not_found"))
-    } else {
-      val content = messages.head.content.split("\n").map("> "+_).mkString("\n")
-      val originalAuthor = User.findBy("id" -> messages.head.authorID.toString).^?.map(_.username).getOrElse("NA")
-      val header = "from " + originalAuthor + " on " + messages.head.writtenAt.normalize
-      val form = Forms.messageForm.fill(("Re: " + messages.head.title.getOrElse(""), " \n" + header + "\n" + content))
-      Ok(html.Private.messageForm(form, messages.head.authorID))
-    }
   }
 
   def editUser = authorizedAction(BasicUser) { user => implicit request =>
@@ -182,11 +111,6 @@ object Private extends Controller with Auth with AuthImpl {
   def deleteProfile = authorizedAction(BasicUser) { user => implicit request =>
     User.delete(user.id)
     Redirect(routes.Application.index()).withNewSession
-  }
-
-  def deleteMessage(id: Long) = authorizedAction(BasicUser) { user => implicit request =>
-    PrivateMessage.delete(id)
-    Redirect(routes.Private.listPm()).flashing("success" -> Messages("pm_deleted"))
   }
   
   def newEntry = authorizedAction(BasicUser) { user => implicit request =>

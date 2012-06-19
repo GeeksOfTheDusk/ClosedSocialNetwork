@@ -1,9 +1,15 @@
-@(messageForm: Form[(String, String)], to: Long)(implicit flash: Flash, session: Session)
+@(messageForm: Form[(String, String, String)])(implicit flash: Flash, session: Session)
 @import helper._
 @import fieldconstructor.TwitterBootstrapFieldConstructors._
 @import play.api.i18n.Messages
 @main() {
-    @form(routes.Private.writeMessage(to)) {
+    @form(routes.PrivateMessageController.writeMessage(0)) {
+        @inputText(
+            messageForm("receiver"),
+            '_label -> Messages("to"),
+            '_error -> messageForm.error("to"),
+            'class -> "input-xlarge"
+        )
         @inputText(
             messageForm("title"),
             '_label -> Messages("title"),

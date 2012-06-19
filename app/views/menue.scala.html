@@ -1,5 +1,6 @@
 @(session: Session)
 @import play.api.i18n.Messages
+@import etc._
 <script>
     ready.push('setCounterToFollowing');
 </script>
@@ -14,7 +15,7 @@
           <a class="brand" href="/">@(etc.fromConfig("app.name"))</a>
           <div class="nav-collapse">
             <ul class="nav">
-@if(session.get("user") != None) {
+@if(resolveCache(session.get("sessionId"))) {
   @if(User.findBy("username" -> session.get("user").get).head.isAdmin) {
               <li><a href="/admin">Administration</a></li>
            		<li class="divider-vertical"></li>
@@ -27,7 +28,7 @@
           <form class="navbar-search pull-left">
             <input type="text" class="search-query" placeholder="@Messages("search")" />
           </form>
-@if(session.get("user") != None) {
+@if(resolveCache(session.get("sessionId"))) {
           <div class="nav-collapse pull-right">
             <ul class="nav nav-pills">
               <li class="dropdown">
@@ -77,9 +78,3 @@
         </div>
       </div>
     </div>
-<!--
-<a href="/users/me">My Profile</a>
-<a href="/users/me/pmessages">Private messages</a>
-<a href="/users/me/marking">List marked users</a>
-<a href="/users/me/markedByOthers">List users marking you</a>
--->

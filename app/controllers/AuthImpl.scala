@@ -15,7 +15,7 @@ trait AuthImpl extends AuthConfig {
   
   val idManifest: ClassManifest[Id] = classManifest[Id]
   
-  val sessionTimeoutInSeconds: Int = 0
+  val sessionTimeoutInSeconds: Int = 3600
   
   def resolveUser(id: Id): Option[User] =  models.User.findBy("id" -> id.toString()).^?
   

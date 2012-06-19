@@ -4,10 +4,19 @@ import models.User
 import play.api.Configuration
 import views.html.helper.FieldConstructor
 import scala.util.matching._
+import play.api.cache.Cache
 
 package object etc {
   val config = Configuration.load(null)
   def fromConfig(key: String) = config.getString(key).get
+  
+  def resolveCache(sessionId: Option[String]) = {
+    import play.api.Play.current
+    (for(
+        id <- sessionId; 
+    	c <- Cache.get(id+":sessionId"))
+    yield true).getOrElse(false)
+  }
 
   implicit def dateToString(date: Date) = new {
     def normalize = {
