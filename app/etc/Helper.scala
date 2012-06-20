@@ -12,9 +12,8 @@ package object etc {
   
   def resolveCache(sessionId: Option[String]) = {
     import play.api.Play.current
-    (for(
-        id <- sessionId; 
-    	c <- Cache.get(id+":sessionId"))
+    (for {id <- sessionId 
+    	 c <- Cache.get(id+":sessionId")}
     yield true).getOrElse(false)
   }
 

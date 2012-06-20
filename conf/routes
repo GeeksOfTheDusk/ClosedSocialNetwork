@@ -22,9 +22,9 @@ GET     /users/me/pmessages.json                controllers.PrivateMessageContro
 GET     /users/me/edit                          controllers.Private.editUser
 GET     /users/me/pmessages/reply/:id           controllers.PrivateMessageController.reply(id: Long)
 GET     /users/me/pmessages/:id                 controllers.PrivateMessageController.showPm(id: Long)
-GET     /users/me/markedByOthers                controllers.Private.showMarkingUsers
-GET     /users/me/marking                       controllers.Private.showMarkedUsers
-GET     /users/me/marking.json                  controllers.Private.showMarkedUsersAsJSON
+GET     /users/me/markedByOthers                controllers.Relationships.showMarkingUsers
+GET     /users/me/marking                       controllers.Relationships.showMarkedUsers
+GET     /users/me/marking.json                  controllers.Relationships.showMarkedUsersAsJSON
 GET     /users/me/pmessages/delete/:id          controllers.PrivateMessageController.deleteMessage(id: Long)
 
 # Post requests
@@ -37,8 +37,8 @@ POST    /newUser                                controllers.Application.newUser
 POST    /sendPm                                 controllers.PrivateMessageController.writeMessage(to: Long)
 POST    /createKey                              controllers.Private.createKey
 POST    /saveUser                               controllers.Private.saveUser
-POST    /mark                                   controllers.Private.mark(id: Long)
-POST    /unmark                                 controllers.Private.unmark(id: Long)
+POST    /mark                                   controllers.Relationships.mark(id: Long)
+POST    /unmark                                 controllers.Relationships.unmark(id: Long)
 POST    /deleteProfile                          controllers.Private.deleteProfile
 
 # Blogengine
