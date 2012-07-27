@@ -16,8 +16,8 @@
     @for(user <- users) {
         <tbody>
         <tr>
-        @form(routes.Admin.delete(user.id)){
-            <td>@user.id</td>
+        @form(routes.Admin.delete(user.userid)){
+            <td>@user.id.getString</td>
             <td>@user.username</td>
             <td><a class="btn btn-mini" href="/admin/users/@user.id">Edit</a></td>
             <td><button class="btn btn-danger btn-mini" type="submit">Delete</button></td>

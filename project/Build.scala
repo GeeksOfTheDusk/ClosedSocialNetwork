@@ -12,11 +12,13 @@ object ApplicationBuild extends Build {
       "csn_bbcodeparser" % "csn_bbcodeparser_2.9.1" % "1.0-SNAPSHOT",
       "twitter_bootstrap_module" % "twitter_bootstrap_module_2.9.1" % "1.0-SNAPSHOT",
       "csn_mini_blogengine" % "csn_mini_blogengine_2.9.1" % "0.3.0-SNAPSHOT",
-      "jp.t2v" %% "play20.auth" % "0.3-SNAPSHOT"
+      "jp.t2v" %% "play20.auth" % "0.3-SNAPSHOT",
+      "com.mongodb.casbah" %% "casbah" % "2.1.5-1"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
       resolvers += "CSN Modules Repository" at "http://repositories.coding-minds.com/modules/releases/",
-      resolvers += "t2v.jp repo" at "http://www.t2v.jp/maven-repo/"
+      resolvers += "t2v.jp repo" at "http://www.t2v.jp/maven-repo/",
+      resolvers += "Scala tools releases" at "http://scala-tools.org/repo-releases/"
     )
 }

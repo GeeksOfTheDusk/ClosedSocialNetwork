@@ -17,14 +17,14 @@ object Private extends Controller with Auth with AuthImpl {
     if(user == None) {
       Redirect(routes.Application.index())
     } else {
-	    val messages = PrivateMessage.allReceived(user.get.id)
-	    val c = messages.filter(_.readAt == None).length
+	    val messages = user.get.inBox.map(_.messages).getOrElse(Nil)
+	    val c = messages.filter(!_.wasRead).length
 	    Ok(html.Private.index(c))
     }
   }
   
   def me = authorizedAction(BasicUser) { user => implicit request =>
-    val keys = models.InvitationKey.findByCreator(user.id)
+    val keys = user.invitationKeys
     Ok(html.Private.showProfile(user, keys))
   }
 
@@ -34,7 +34,7 @@ object Private extends Controller with Auth with AuthImpl {
   }
 
   def editUser = authorizedAction(BasicUser) { user => implicit request =>
-    val data = ((user.username, "", ""), user.sex, user.dateOfBirth,
+    val data = ((user.username, "", ""), user.gender, user.dateOfBirth,
       user.description, user.anonym, user.isAdmin)
     val filledForm = Forms.editUserForm.fill(data)
     Ok(html.Private.editUserForm(filledForm, user))
@@ -45,11 +45,11 @@ object Private extends Controller with Auth with AuthImpl {
       errors =>BadRequest(html.Private.editUserForm(errors, user)),
       value => {
         val((_,pw,_), gender, bday, about, anonym, _) = value
-        user.hashedPW = if(!pw.isEmpty)Crypto.sign(pw) else user.hashedPW
+        user.hashedPassword = if(!pw.isEmpty)Crypto.sign(pw) else user.hashedPassword
         user.dateOfBirth = bday
         user.description = about
         user.anonym = anonym
-        user.sex = gender
+        user.gender = gender
         User.update(user)
         Redirect(routes.Private.me())
       }
@@ -57,7 +57,7 @@ object Private extends Controller with Auth with AuthImpl {
   }
 
   def deleteProfile = authorizedAction(BasicUser) { user => implicit request =>
-    User.delete(user.id)
+    User.delete(user)
     Redirect(routes.Application.index()).withNewSession
   }
   

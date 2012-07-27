@@ -18,7 +18,7 @@ object Forms {
   
   val signUpForm = Form (
     tuple (
-      "username" -> nonEmptyText(minLength = 3).verifying(Messages("username_is_taken"), username => models.User.findBy("username" -> username).isEmpty),
+      "username" -> nonEmptyText(minLength = 3).verifying(Messages("username_is_taken"), username => models.User.findOneByName(username).isEmpty),
       "password" -> tuple (
         "main" -> nonEmptyText,
         "confirm" -> nonEmptyText
@@ -26,7 +26,7 @@ object Forms {
         passwords._1 == passwords._2
       ),
       "registrationkey" -> nonEmptyText.verifying(Messages("invalid_registration_key"), {key =>
-        val keys = models.InvitationKey.findByKey(key)
+        val keys = models.User.findAllBy("keys" -> key)
         if(keys.isEmpty)
           false
         else {
@@ -45,7 +45,7 @@ object Forms {
 
   val messageFormEx = Form (
     tuple (
-      "receiver" -> nonEmptyText.verifying(Messages("user_not_found"), value => !models.User.findBy("username" -> value).isEmpty),
+      "receiver" -> nonEmptyText.verifying(Messages("user_not_found"), value => !models.User.findOneByName(value).isEmpty),
       "title" -> text,
       "content" -> nonEmptyText
     )
@@ -60,8 +60,8 @@ object Forms {
       ).verifying(Messages("old_password_is_missing"), value =>{
         if(!value._2.isEmpty) {
           val oldPw = value._3
-          val user = User.findBy("username" -> value._1).head
-          Crypto.sign(oldPw) == user.hashedPW
+          val user = User.findOneByName(value._1).get
+          Crypto.sign(oldPw) == user.hashedPassword
         } else {
           true
         }
@@ -77,7 +77,7 @@ object Forms {
   val newUserForm = Form {
     tuple(
       "user" -> tuple (
-        "username" -> nonEmptyText.verifying(Messages("username_is_taken"), value => models.User.findBy("username" -> value).isEmpty),
+        "username" -> nonEmptyText.verifying(Messages("username_is_taken"), value => models.User.findOneByName(value).isEmpty),
         "password" -> nonEmptyText
       ),
       "bday" -> date,

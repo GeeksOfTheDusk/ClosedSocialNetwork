@@ -8,7 +8,7 @@
     
     @if(session.get("user") != None) {
 
-        @if(models.User.findBy("username" -> session.get("user").get).head.isMarking(user.id)) {
+        @if(models.User.findOneByName(session.get("user").get).get.isFollowing(user.id)) {
             @form(routes.Relationships.unmark(user.id)) {
                 <button class="btn btn-inverse btn-small" type="submit">
                     <i class="icon-star icon-white"></i>

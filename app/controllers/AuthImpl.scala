@@ -9,7 +9,7 @@ import scala.util.Random
 import java.security.SecureRandom
 
 trait AuthImpl extends AuthConfig {
-  type Id = Long
+  type Id = String
   type User = models.User
   type Authority = User => Boolean
   
@@ -17,7 +17,7 @@ trait AuthImpl extends AuthConfig {
   
   val sessionTimeoutInSeconds: Int = 3600
   
-  def resolveUser(id: Id): Option[User] =  models.User.findBy("id" -> id.toString()).^?
+  def resolveUser(id: Id): Option[User] =  models.User.findOneByName(id)
   
   def loginSucceeded[A](request: Request[A]): PlainResult = Redirect(routes.Private.index)
   

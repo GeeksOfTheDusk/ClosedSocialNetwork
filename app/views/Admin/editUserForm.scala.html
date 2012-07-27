@@ -3,7 +3,7 @@
 @import fieldconstructor.TwitterBootstrapFieldConstructors._
 
 @main(){
-    @form(routes.Admin.editUser(user.id)) {
+    @form(routes.Admin.editUser(user.username)) {
         <h3>Edit @user.username</h3>
 
         @inputDate(

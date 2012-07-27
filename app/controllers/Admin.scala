@@ -4,17 +4,18 @@ import play.api.mvc._
 import models._
 import play.api.libs.Crypto
 import jp.t2v.lab.play20.auth.Auth
+import com.mongodb.casbah.commons.MongoDBObject
 
 object Admin extends Controller with Auth with AuthImpl{
   import views._
   
   def index = authorizedAction(Admin) { user => implicit request =>
-    val users = User.all
+    val users = User.find(MongoDBObject())
     Ok(html.Admin.index(users))
   }
 
-  def delete(id: Long) = authorizedAction(Admin) { user => implicit request =>
-    User.delete(id)
+  def delete(username: String) = authorizedAction(Admin) { user => implicit request =>
+    User.deleteBy("username" -> username)
     Redirect(routes.Admin.index())
   }
   
@@ -27,7 +28,7 @@ object Admin extends Controller with Auth with AuthImpl{
       formsWithErrors => BadRequest(html.Admin.newUserForm(formsWithErrors)),
       value => {
         val ((username, pw), bday, about, anonym, admin) = value
-        val user = new User(username = username, hashedPW = Crypto.sign(pw), dateOfBirth = bday,
+        val user = new User(username = username, gender = "m", hashedPassword = Crypto.sign(pw), dateOfBirth = bday,
           description = about, anonym = anonym, isAdmin = admin)
         User.create(user)
         Redirect(routes.Admin.index())
@@ -35,20 +36,20 @@ object Admin extends Controller with Auth with AuthImpl{
     )
   }
   
-  def editUserForm(id: Long) = authorizedAction(Admin) { user => implicit request =>
-    val user = User.findBy("id" -> id.toString).head
+  def editUserForm(username: String) = authorizedAction(Admin) { user => implicit request =>
+    val user = User.findOneByName(username).get
     if(user == null) {
       BadRequest(html.Admin.index(User.all))
     } else {
-      val toFill = (user.dateOfBirth,
+      val toFill = (user.dateOfBirth, 
         user.description, user.anonym, user.isAdmin)
       
       Ok(html.Admin.editUserForm(Forms.adminEditUserForm.fill(toFill), user))
     }
   }
 
-  def editUser(id: Long) = authorizedAction(Admin) { user => implicit request =>
-    val user = User.findBy("id" -> id.toString).head
+  def editUser(username: String) = authorizedAction(Admin) { user => implicit request =>
+    val user = User.findOneByName(username).get
     if(user == null) {
       Redirect(routes.Admin.index())
     } else {
@@ -76,11 +77,18 @@ object Admin extends Controller with Auth with AuthImpl{
       errors => BadRequest(html.Admin.broadcastForm(errors)),
       value => { val (title, content) = value
         for(user <- User.all) {
-          val pm = new PrivateMessage(title = Some("[Admin] " + title),
+          val pm = new PrivateMessage(title = "[Admin] " + title,
                                       content = content,
-                                      authorID = 0,
-                                      receiverID = user.id)
-          PrivateMessage.create(pm)
+                                      author = User.adminID) 
+           
+          val out = OutBox.findOneByOwmerId(User.adminID)
+          out.get.messages = pm :: out.get.messages
+          
+          OutBox.update(out.get)
+          
+          user.inBox.get.messages = pm :: user.inBox.get.messages
+          InBox.update(user.inBox.get)
+              
         }
         Redirect(routes.Admin.index())
       }

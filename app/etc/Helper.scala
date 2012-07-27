@@ -33,9 +33,9 @@ package object etc {
     }
   }
   
-  implicit def longUserExists(id: Long) = new {
+  implicit def nameUserExists(name: String) = new {
     def ? = {
-      if(User.findBy("id" -> id.toString).isEmpty) {
+      if(User.findOneByName(name).isEmpty) {
         false
       } else {
         true
