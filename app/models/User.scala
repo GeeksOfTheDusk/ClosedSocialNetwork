@@ -34,6 +34,19 @@ case class User(id: ObjectId = new ObjectId,
   }
   
   def inBox = InBox.findOneByOwmerId(id)
+  def outBox = OutBox.findOneByOwmerId(id)
+  
+  def send(message: PrivateMessage) = {
+    val box = outBox.get
+    box.messages = message :: box.messages
+    OutBox.update(box)
+  }
+  
+  def receive(message: PrivateMessage) = {
+    val box = inBox.get
+    box.messages = message :: box.messages
+	InBox.update(box)
+  }
 }
 
 object User {

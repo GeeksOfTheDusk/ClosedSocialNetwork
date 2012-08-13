@@ -6,18 +6,18 @@
 @main(){
     <h4>@message.title</h4>
     @Messages("from")
-    @if(message.authorID > 0) {
-        @if(message.authorID.?) {
-            <a href="/users/@(models.User.findBy("id" -> message.authorID.toString).head.username)">@(models.User.findBy("id" -> message.authorID.toString).head.username)</a>
+    @if(message.author.toString != "") {
+        @if(message.author.?) {
+            <a href="/users/@(models.User.findOneById(message.author).get.username)">@(models.User.findOneById(message.author).get.username)</a>
         } else {
             NA
         }
-    } @Messages("on") @message.writtenAt.normalize
+    } @Messages("on") @message.writeDate.normalize
     <div class="well" style="margin-top:2%;">
         @Html(message.content.escape)
     </div>
-    @if(message.authorID.?) {
-        <a class="btn btn-success" href="/users/me/pmessages/reply/@message.id">
+    @if(message.author.?) {
+        <a class="btn btn-success" href="/users/me/pmessages/reply/@message.id.toString">
             <i class="icon-arrow-left icon-white"></i>
             @Messages("reply")
         </a>

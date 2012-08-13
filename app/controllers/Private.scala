@@ -25,11 +25,12 @@ object Private extends Controller with Auth with AuthImpl {
   
   def me = authorizedAction(BasicUser) { user => implicit request =>
     val keys = user.invitationKeys
-    Ok(html.Private.showProfile(user, keys))
+    Ok(html.Private.showProfile(user, keys)) 
   }
 
   def createKey = authorizedAction(BasicUser) { user => implicit request =>
-    models.InvitationKey.create(InvitationKey(creator_id = user.id))
+    user.invitationKeys = etc.generateKey() :: user.invitationKeys
+    User.update(user)
     Redirect(routes.Private.me()).flashing("info" -> Messages("new_key"))
   }
 

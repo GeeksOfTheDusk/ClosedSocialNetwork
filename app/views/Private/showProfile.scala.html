@@ -1,10 +1,10 @@
-@(user: models.User, keys: List[models.InvitationKey])(implicit session:Session, flash: Flash)
+@(user: models.User, keys: List[String])(implicit session:Session, flash: Flash)
 @import etc._
 @import play.api.i18n.Messages
 @main() {
     @userInfo(user)
     @for(key <- keys) {
-        <p>@key.key_string</p>
+        <p>@key</p>
     }
     @if(keys.length < 3) {
         @helper.form(routes.Private.createKey()){<button class="btn btn-mini btn-inverse" type="submit" style="margin-top:2%;">

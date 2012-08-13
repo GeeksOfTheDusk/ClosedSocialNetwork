@@ -5,6 +5,8 @@ import play.api.Configuration
 import views.html.helper.FieldConstructor
 import scala.util.matching._
 import play.api.cache.Cache
+import scala.util.Random
+import org.bson.types.ObjectId
 
 package object etc {
   val config = Configuration.load(null)
@@ -33,14 +35,24 @@ package object etc {
     }
   }
   
-  implicit def nameUserExists(name: String) = new {
+  implicit def idUserExists(id: ObjectId) = new {
     def ? = {
-      if(User.findOneByName(name).isEmpty) {
+      if(User.findOneById(id).isEmpty) {
         false
       } else {
         true
       }
     }
+  }
+  
+  def generateKey(length: Int = 5) = {
+    val chars = Array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u",
+      "v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T",
+      "U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9"
+    )
+    
+    val random = new Random(System.currentTimeMillis)
+    (for(i <- 0 until length) yield chars(random.nextInt(chars.length))).mkString
   }
 }
 

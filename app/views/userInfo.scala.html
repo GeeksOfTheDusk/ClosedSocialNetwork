@@ -6,7 +6,7 @@
 <h1>@Messages("info.profile") @Messages("of") @user.username</h1>
 
 <div>
-    @Messages("gender"): @{user.sex match {
+    @Messages("gender"): @{user.gender match {
     case "q" => Messages("queer")
     case "m" => Messages("male")
     case "f" => Messages("female")
@@ -27,9 +27,9 @@
     @Messages("registered") @Messages("since") @user.registrationDate.normalize
 </div>
 
-@if(user.invitedBy.? && user.invitedBy > 0) {
+@if(user.invitedBy != "None") {
 <div>
-    @Messages("invited") @Messages("by") <a href="/users/@models.User.findBy("id" -> user.invitedBy.toString).head.username">
-    @models.User.findBy("id" -> user.invitedBy.toString).head.username</a>
+    @Messages("invited") @Messages("by") <a href="/users/user.invitedBy">
+    @user.invitedBy</a>
 </div>
 }

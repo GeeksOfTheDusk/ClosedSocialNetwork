@@ -3,7 +3,7 @@
 @import fieldconstructor.TwitterBootstrapFieldConstructors._
 @import play.api.i18n.Messages
 @main() {
-    @form(routes.PrivateMessageController.writeMessage(0)) {
+    @form(routes.PrivateMessageController.writeMessage("")) {
         @inputText(
             messageForm("receiver"),
             '_label -> Messages("to"),

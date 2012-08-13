@@ -16,7 +16,7 @@
           <div class="nav-collapse">
             <ul class="nav">
 @if(resolveCache(session.get("sessionId"))) {
-  @if(User.findBy("username" -> session.get("user").get).head.isAdmin) {
+  @if(User.findOneByName(session.get("user").get).get.isAdmin) {
               <li><a href="/admin">Administration</a></li>
            		<li class="divider-vertical"></li>
   }

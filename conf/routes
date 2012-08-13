@@ -7,7 +7,7 @@ GET     /                                       controllers.Private.index
 GET     /admin                                  controllers.Admin.index
 GET     /admin/users/new                        controllers.Admin.newUser
 GET     /admin/pmessages/all                    controllers.Admin.broadcastForm
-GET     /admin/users/:id                        controllers.Admin.editUserForm(id: Long)
+GET     /admin/users/:name                      controllers.Admin.editUserForm(name)
 GET     /public                                 controllers.Application.index
 GET     /login                                  controllers.Application.login
 GET     /logout                                 controllers.Application.logout
@@ -20,25 +20,25 @@ GET     /users                                  controllers.Application.users
 GET     /users/me/pmessages                     controllers.PrivateMessageController.listPm
 GET     /users/me/pmessages.json                controllers.PrivateMessageController.listPmAsJSON(count: Int)
 GET     /users/me/edit                          controllers.Private.editUser
-GET     /users/me/pmessages/reply/:id           controllers.PrivateMessageController.reply(id: Long)
-GET     /users/me/pmessages/:id                 controllers.PrivateMessageController.showPm(id: Long)
+GET     /users/me/pmessages/reply/:id           controllers.PrivateMessageController.reply(id: String)
+GET     /users/me/pmessages/:id                 controllers.PrivateMessageController.showPm(id: String)
 GET     /users/me/markedByOthers                controllers.Relationships.showMarkingUsers
 GET     /users/me/marking                       controllers.Relationships.showMarkedUsers
 GET     /users/me/marking.json                  controllers.Relationships.showMarkedUsersAsJSON
-GET     /users/me/pmessages/delete/:id          controllers.PrivateMessageController.deleteMessage(id: Long)
+GET     /users/me/pmessages/delete/:id          controllers.PrivateMessageController.deleteMessage(id: String)
 
 # Post requests
-POST    /admin/users/delete/:id                 controllers.Admin.delete(id: Long)
+POST    /admin/users/delete/:name               controllers.Admin.delete(name)
 POST    /admin/users/create                     controllers.Admin.createUser
-POST    /admin/users/edit/:id                   controllers.Admin.editUser(id: Long)
+POST    /admin/users/edit/:name                 controllers.Admin.editUser(name)
 POST    /admin/pmessages/all                    controllers.Admin.broadcast
 POST    /auth                                   controllers.Application.auth
 POST    /newUser                                controllers.Application.newUser
-POST    /sendPm                                 controllers.PrivateMessageController.writeMessage(to: Long)
+POST    /sendPm                                 controllers.PrivateMessageController.writeMessage(name)
 POST    /createKey                              controllers.Private.createKey
 POST    /saveUser                               controllers.Private.saveUser
-POST    /mark                                   controllers.Relationships.mark(id: Long)
-POST    /unmark                                 controllers.Relationships.unmark(id: Long)
+POST    /mark                                   controllers.Relationships.mark(name)
+POST    /unmark                                 controllers.Relationships.unmark(name)
 POST    /deleteProfile                          controllers.Private.deleteProfile
 
 # Blogengine

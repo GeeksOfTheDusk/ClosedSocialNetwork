@@ -11,7 +11,13 @@ case class PrivateMessage(id: ObjectId = new ObjectId,
   writeDate: Date = new Date,
   var wasRead: Boolean = false)
 
-case class Box(id: ObjectId = new ObjectId, owner: ObjectId, var messages: List[PrivateMessage] = Nil)
+case class Box(id: ObjectId = new ObjectId, owner: ObjectId, var messages: List[PrivateMessage] = Nil) {
+  def updateMessage(message: PrivateMessage) = {
+    messages = messages.remove(_.id.toString == message.id.toString)
+    messages = message :: messages
+    InBox.update(this)
+  }
+}
 trait TBox {
   val collection: MongoCollection
   val mongo = MongoDBObject

@@ -9,14 +9,14 @@
     @if(session.get("user") != None) {
 
         @if(models.User.findOneByName(session.get("user").get).get.isFollowing(user.id)) {
-            @form(routes.Relationships.unmark(user.id)) {
+            @form(routes.Relationships.unmark(user.username)) {
                 <button class="btn btn-inverse btn-small" type="submit">
                     <i class="icon-star icon-white"></i>
                     @Messages("not_follow")
                 </button>
             }
         } else {
-            @form(routes.Relationships.mark(user.id)) {
+            @form(routes.Relationships.mark(user.username)) {
                 <button class="btn btn-inverse btn-small" type="submit">
                     <i class="icon-star icon-white-empty"></i>
                     @Messages("follow")

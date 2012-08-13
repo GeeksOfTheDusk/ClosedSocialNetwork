@@ -5,12 +5,12 @@
     @for(m <- messages) {
         <div>
             <a href="/users/me/pmessages/@m.id">@m.title</a> @Messages("from")
-            @if(m.authorID.?) {
-                <a href="/users/@(models.User.findBy("id" -> m.authorID.toString))">@(models.User.findBy("id" -> m.authorID.toString).head.username)</a>
+            @if(m.author.?) {
+                <a href="/users/@(models.User.findOneById(m.author).get.username)">@(models.User.findOneById(m.author).get.username)</a>
             } else {
                 NA
             }
-            <a href="/users/me/pmessages/delete/@m.id"><i class="icon-remove"></i></a>
+            <a href="/users/me/pmessages/delete/@m.id.toString"><i class="icon-remove"></i></a>
         </div>
     }
 }
